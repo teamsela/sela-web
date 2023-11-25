@@ -1,31 +1,15 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { AppBar } from "@mui/material";
+
 
 import { api } from "~/utils/api";
-import { GoogleOAuthProvider } from '@react-oauth/google';
-
-
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ButtonAppBar from "./AppBar";
-
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "from tRPC" });
-
-  return (
-    <>
-      <ul>
-      <ButtonAppBar/>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/editor">Editor</Link>
-        </li>
-      </ul>
-
+    const hello = api.post.hello.useQuery({ text: "from tRPC" });
+  
+    return (
       <>
         <Head>
           <title>Create T3 App</title>
@@ -70,29 +54,30 @@ export default function Home() {
           </div>
         </main>
       </>
-    </>
-  )
-}
-function AuthShowcase() {
-  const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = api.post.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-}
+    );
+  }
+  
+  function AuthShowcase() {
+    const { data: sessionData } = useSession();
+  
+    const { data: secretMessage } = api.post.getSecretMessage.useQuery(
+      undefined, // no input
+      { enabled: sessionData?.user !== undefined }
+    );
+  
+    return (
+      <div className="flex flex-col items-center justify-center gap-4">
+        <p className="text-center text-2xl text-white">
+          {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
+          {secretMessage && <span> - {secretMessage}</span>}
+        </p>
+        <button
+          className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+          onClick={sessionData ? () => void signOut() : () => void signIn()}
+        >
+          {sessionData ? "Sign out" : "Sign in"}
+        </button>
+      </div>
+    );
+  }
+  
