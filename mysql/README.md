@@ -11,11 +11,11 @@ The MySQL database runs inside a docker container and exposes port 3306 for conn
 
 ### With BASH
 ```bash
-    sudo docker-compose -f docker-compose.yml up
+    sudo docker compose -f docker-compose.yml up
 ```
 OR to run in background:
 ```bash
-    sudo docker-compose -f docker-compose.yml up -d
+    sudo docker compose -f docker-compose.yml up -d
 ```
 
 ## Connecting to Docker MySQL (if you have local MySQL install):
@@ -26,7 +26,7 @@ OR to run in background:
 ```
 ## Connecting to Docker MySQL (works without local MySQL installed):
 
-### First find the <containerName> of Docker Container just created:
+### First find the <containerName> of Docker Container just created, (Docker container must be running):
 ```bash
     docker container ls --format "{{.Names}}"
 ```
