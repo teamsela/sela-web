@@ -117,8 +117,10 @@
 .navTools .basicTools div{
     margin-right: 1rem;
 }
-.navTools .basicTools img{
-    height: 30px;
+.navTools .basicTools img,
+.navTools .basicTools button,
+.navTools .basicTools a{
+    height: 1.75rem;
     width: auto;
     margin-right:1rem;
 }
@@ -130,7 +132,7 @@
     background-color: #A3C3F5;
     font-size: 1.25rem;
     border-radius: 0.5rem;
-    padding:5px 10px;
+    padding:0.1rem 0.75rem;
     border:none;
     outline: none;
     margin-left:5px;

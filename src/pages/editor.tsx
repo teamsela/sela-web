@@ -3,7 +3,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { Undo, Redo } from '@mui/icons-material';
 import Link from "next/link";
 
-import {NavMain} from "./components/Nav"
+import {NavMain,NavTools} from "./components/Nav"
 import { useState,useReducer } from "react";
 
 export default function Editor() {
@@ -17,6 +17,7 @@ export default function Editor() {
     const [selectedButton, setSelectedButton] = useState("default");
     const handleSelectButton = (button) => {
       setSelectedButton(button);
+      console.log(selectedButton);
     };
 
     return (
@@ -26,6 +27,7 @@ export default function Editor() {
                 selectedButton={selectedButton}
                 onSelectButton={handleSelectButton}
             />
+            <NavTools selectedButton={selectedButton}/>
             {/* <ButtonAppBar /> */}
             <Toolbar className="flex-container">
                 <Link href="/">home</Link>
