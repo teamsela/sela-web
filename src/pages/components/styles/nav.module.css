@@ -1,9 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-
-/* navigation */
 .nav{
     display: flex;
     flex-direction: row;
@@ -33,18 +28,18 @@
     font-size: 2rem;
     background-color: white;
     border-radius: 15px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     border:none;
     outline:none;
     padding:0;
-    /* width: 100%; */
 }
 .navMain .lang a,
 .navMain .lang p{
     margin:0;
-    padding:0.1rem 0.75rem;
+    padding:5px 15px;
     color:grey;
     background-color: grey;
 }
@@ -79,9 +74,8 @@
 .navMain .navOptions{
     margin-left: 10px;
 }
-.navMain .navOptions a,
-.navMain .navOptions button{
-    padding:0.5rem 1.5rem;
+.navMain .navOptions a{
+    padding:10px 25px;
     border-radius: 15px;
     margin-right: 10px;
     background-color: white;
@@ -89,8 +83,7 @@
 .navMain .navOptions .selected{
     background-color: #A3C3F5;
 }
-.navMain .navOptions a:last-child,
-.navMain .navOptions button:last-child{
+.navMain .navOptions a:last-child{
     margin-right: 0;
 }
 
@@ -117,10 +110,8 @@
 .navTools .basicTools div{
     margin-right: 1rem;
 }
-.navTools .basicTools img,
-.navTools .basicTools button,
-.navTools .basicTools a{
-    height: 1.75rem;
+.navTools .basicTools img{
+    height: 30px;
     width: auto;
     margin-right:1rem;
 }
@@ -132,7 +123,7 @@
     background-color: #A3C3F5;
     font-size: 1.25rem;
     border-radius: 0.5rem;
-    padding:0.1rem 0.75rem;
+    padding:5px 10px;
     border:none;
     outline: none;
     margin-left:5px;
