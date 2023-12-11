@@ -38,7 +38,7 @@ export const env = createEnv({
     //MYSQL login
     MYSQL_DATABASE: z.string(),
     MYSQL_USER: z.string(),
-    MYSQL_USER_PASSWORD: z.string(),
+    MYSQL_PASSWORD: z.string(),
   },
 
   /**
@@ -65,7 +65,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     MYSQL_DATABASE: process.env.MYSQL_DATABASE,
     MYSQL_USER: process.env.MYSQL_USER,
-    MYSQL_USER_PASSWORD: process.env.MYSQL_USER_PASSWORD,
+    MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
