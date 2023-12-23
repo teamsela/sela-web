@@ -137,3 +137,20 @@
     outline: none;
     margin-left:5px;
 }
+
+
+
+.poemViewPort{
+    margin:5rem 3rem;
+}
+.poemParagraph{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    margin:0.5rem 0;
+}
+.poemWord{
+    margin-right: 0.45rem;
+    cursor: pointer;
+}

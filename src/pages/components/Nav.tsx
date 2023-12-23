@@ -4,6 +4,9 @@ import Button from '@mui/material/Button';
 import { Undo, Redo } from '@mui/icons-material';
 import Link from "next/link";
 
+import { PoemView } from "./stanzas"
+
+
 function setLang(currentPage,setPage){
     switch(setPage){
         case "ENG":
@@ -97,7 +100,7 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
-export const NavTools = ( {selectedButton } ) => {
+export const NavTools = ( {selectedButton, poem} ) => {
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
     switch (selectedButton) {
@@ -124,10 +127,14 @@ export const NavTools = ( {selectedButton } ) => {
             );
       }
     var navStructure = (
-        <nav className="navTools nav">
-            <NavBasicTools />
-            {navStanzaEdit}
-        </nav>
+        <>
+            <nav className="navTools nav">
+                <NavBasicTools />
+                {navStanzaEdit}
+            </nav>
+
+            <PoemView poemContent={poem} />
+        </>
     )
     return navStructure;
 }
