@@ -1,9 +1,11 @@
 
 
-
-export const PoemView = ({poemContent}) => {
+interface PoemViewProps {
+    poemContent: string[][];
+}
+export const PoemView: React.FC<PoemViewProps> = ({ poemContent }) => {
     //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
-    //and parse it?
+    //and parse it
     console.log(poemContent);
     var poemStructure = (
         <>
@@ -19,26 +21,28 @@ export const PoemView = ({poemContent}) => {
     return poemStructure;
 }
 
-export const PoemParagraph = ({paragraphContent}) => {
 
-    var poemStructure = (
-        <>
-            <div className="poemParagraph">
-                
-                {
-                    paragraphContent.map((line,lineIndex) => (
-                        <PoemLine key={lineIndex} lineContent={line} />
-                    ))
-                }
-
-            </div>
-        </>
-    )
-    return poemStructure;
+interface PoemParagraphProps {
+    paragraphContent: string[][];
 }
+export const PoemParagraph: React.FC<PoemParagraphProps> = ({ paragraphContent }) => {
+    const poemStructure = (
+        <>
+        <div className="poemParagraph">
+            {paragraphContent.map((line, lineIndex) => (
+            <PoemLine key={lineIndex} lineContent={line} />
+            ))}
+        </div>
+        </>
+    );
+    return poemStructure;
+};
 
-export const PoemLine = ({lineContent}) => {
 
+interface PoemLineProps {
+    lineContent:string[];
+}
+export const PoemLine:React.FC<PoemLineProps> = ( { lineContent } ) => {
     var poemStructure = (
         <>
             <div className="poemLine">
@@ -52,6 +56,7 @@ export const PoemLine = ({lineContent}) => {
     )
     return poemStructure;
 }
+
 
 interface PoemWordProps {
     color: string;
@@ -80,25 +85,5 @@ const PoemWord: React.FC<PoemWordProps> = ({ color, backgroundColor, borderColou
         </div>
         </>
     );
-
     return poemStructure;
 };
-
-
-// export const PoemWord = (textColour:string, backgroundColour:string, borderColour:string, text:string) => {
-// export const PoemWord = ({text}) => {
-//     const word=text;
-//     const componentStyle = {
-//         color: 'red',
-//         backgroundColor: 'blue',
-//         border: '1px solid black',
-//       };
-//     var poemStructure = (
-//         <>
-//             <div className="wordBlock" style={componentStyle}>
-//                 <p>{word}</p>
-//             </div>
-//         </>
-//     )
-//     return poemStructure;
-// }
