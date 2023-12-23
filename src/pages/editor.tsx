@@ -23,7 +23,11 @@ export default function Editor() {
       console.log(selectedButton);
     };
 
-    const poemTest = [["A Psalm","of David"],["1 Give", "unto Yahweh", "sons", "You mighty ones", "Give", "unto Yahweh", "glory", "and strength"],["2 Give", "unto Yahweh", "The glory due to", "His name", "Worship", "Yahweh", "In the beauty", "of Holiness"],["3 The voice", "of Yahweh", "[is] over", "the waters", "the God", "of glory", "thunders", "Yahweh [is]", "over", "waters", "many"],];
+    const poemTest = [
+        [["A Psalm","of David"]],
+        [["1 Give", "unto Yahweh", "sons", "You mighty ones"], ["Give", "unto Yahweh", "glory", "and strength"]],
+        [["2 Give", "unto Yahweh", "The glory due to", "His name"], ["Worship", "Yahweh", "In the beauty", "of Holiness"]],
+        [["3 The voice", "of Yahweh", "[is] over", "the waters"], ["the God", "of glory", "thunders"], ["Yahweh [is]", "over", "waters", "many"]],];
     
     const poemTest2 = [
         { 

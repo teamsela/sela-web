@@ -145,10 +145,16 @@
 }
 .poemParagraph{
     display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    margin-bottom: 1rem;
+}
+.poemLine{
+    display: flex;
     flex-direction: row;
     align-items: center;
     white-space: nowrap;
-    margin:0.5rem 0;
+    margin-bottom: 0.5rem;
 }
 .poemWord{
     margin-right: 0.45rem;

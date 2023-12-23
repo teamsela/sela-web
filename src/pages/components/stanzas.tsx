@@ -24,21 +24,30 @@ export const PoemParagraph = ({paragraphContent}) => {
     var poemStructure = (
         <>
             <div className="poemParagraph">
+                
                 {
-                    paragraphContent.map((word,wordIndex) => (
-                        <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word}/>
+                    paragraphContent.map((line,lineIndex) => (
+                        <PoemLine key={lineIndex} lineContent={line} />
                     ))
                 }
+
             </div>
         </>
     )
     return poemStructure;
 }
 
-export const PoemLine = () => {
+export const PoemLine = ({lineContent}) => {
 
     var poemStructure = (
         <>
+            <div className="poemLine">
+                {
+                    lineContent.map((word,wordIndex) => (
+                        <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word}/>
+                    ))
+                }
+            </div>
         </>
     )
     return poemStructure;
