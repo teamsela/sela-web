@@ -1,7 +1,7 @@
 
 
 interface PoemViewProps {
-    poemContent: string[][];
+    poemContent: string[][][];
 }
 export const PoemView: React.FC<PoemViewProps> = ({ poemContent }) => {
     //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
