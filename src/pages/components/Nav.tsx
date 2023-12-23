@@ -103,11 +103,15 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 export const NavTools = ( {selectedButton, poem} ) => {
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
+    var bodyContent;
     switch (selectedButton) {
         case "default":
             navStanzaEdit = (
                 <div></div>
             );
+            bodyContent = (
+                <PoemView poemContent={poem} />
+            )
           break;
         case "structure":
             navStanzaEdit = (
@@ -120,11 +124,17 @@ export const NavTools = ( {selectedButton, poem} ) => {
                     <NavToolsButton title="Block Size"/>
                 </div>
             );
+            bodyContent = (
+                <PoemView poemContent={poem} />
+            )
           break;
         default:
             navStanzaEdit = (
                 <div></div>
             );
+            bodyContent = (
+                <PoemView poemContent={poem} />
+            )
       }
     var navStructure = (
         <>
@@ -132,8 +142,7 @@ export const NavTools = ( {selectedButton, poem} ) => {
                 <NavBasicTools />
                 {navStanzaEdit}
             </nav>
-
-            <PoemView poemContent={poem} />
+            {bodyContent}
         </>
     )
     return navStructure;

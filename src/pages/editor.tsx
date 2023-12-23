@@ -24,10 +24,13 @@ export default function Editor() {
     };
 
     const poemTest = [
-        [["A Psalm","of David"]],
-        [["1 Give", "unto Yahweh", "sons", "You mighty ones"], ["Give", "unto Yahweh", "glory", "and strength"]],
-        [["2 Give", "unto Yahweh", "The glory due to", "His name"], ["Worship", "Yahweh", "In the beauty", "of Holiness"]],
-        [["3 The voice", "of Yahweh", "[is] over", "the waters"], ["the God", "of glory", "thunders"], ["Yahweh [is]", "over", "waters", "many"]],];
+        ["A Psalm","of David"],
+        ["1 Give", "unto Yahweh", "sons", "You mighty ones", "Give", "unto Yahweh", "glory", "and strength"],
+        ["2 Give", "unto Yahweh", "The glory due to", "His name", "Worship", "Yahweh", "In the beauty", "of Holiness"],
+        ["3 The voice", "of Yahweh", "[is] over", "the waters", "the God", "of glory", "thunders", "Yahweh [is]", "over", "waters", "many"],
+        ["4 The voice", "of Yahweh", "[is] powerful", "The voice", "of Yahweh", "[is full] of majesty"],
+        ["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",],
+    ];
     
     const poemTest2 = [
         { 

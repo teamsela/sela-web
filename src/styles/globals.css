@@ -152,11 +152,13 @@
 .poemLine{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     white-space: nowrap;
     margin-bottom: 0.5rem;
 }
 .poemWord{
     margin-right: 0.45rem;
+    margin-bottom: 0.25rem;
     cursor: pointer;
 }

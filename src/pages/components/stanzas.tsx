@@ -1,7 +1,7 @@
 
 
 interface PoemViewProps {
-    poemContent: string[][][];
+    poemContent: string[][];
 }
 export const PoemView: React.FC<PoemViewProps> = ({ poemContent }) => {
     //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
@@ -11,8 +11,11 @@ export const PoemView: React.FC<PoemViewProps> = ({ poemContent }) => {
         <>
             <div className="poemViewPort">
                 {
-                    poemContent.map((paragraph, paraIndex) => (
-                        <PoemParagraph key={paraIndex} paragraphContent={paragraph}/>
+                    poemContent.map((line, lineIndex) => (
+                        //group data into different poemParagraph here, by default one paragraph made with 3 lines
+                        //then render lines inside paragraph component
+                        //consider using grids when switching to structure: under structure, 3 paragraph=1 column
+                        <PoemLine key={lineIndex} lineContent={line}/>
                     ))
                 }
             </div>
@@ -22,22 +25,31 @@ export const PoemView: React.FC<PoemViewProps> = ({ poemContent }) => {
 }
 
 
-interface PoemParagraphProps {
-    paragraphContent: string[][];
-}
-export const PoemParagraph: React.FC<PoemParagraphProps> = ({ paragraphContent }) => {
-    const poemStructure = (
-        <>
-        <div className="poemParagraph">
-            {paragraphContent.map((line, lineIndex) => (
-            <PoemLine key={lineIndex} lineContent={line} />
-            ))}
-        </div>
-        </>
-    );
-    return poemStructure;
-};
-
+// interface PoemParagraphProps {
+//     paragraphContent: string[];
+// }
+// export const PoemParagraph: React.FC<PoemParagraphProps> = ({ paragraphContent }) => {
+//     const poemStructure = (
+//         <>
+//         <div className="poemParagraph">
+//             {paragraphContent.map((line, lineIndex) => (
+//             <PoemLine key={lineIndex} lineContent={line} />
+//             ))}
+//         </div>
+//         </>
+//     );
+//     return poemStructure;
+// };
+// export const PoemParagraph = ({content}) => {
+//     const poemStructure = (
+//         <>
+//         <div className="poemParagraph">
+//             {content}
+//         </div>
+//         </>
+//     );
+//     return poemStructure;
+// }
 
 interface PoemLineProps {
     lineContent:string[];
