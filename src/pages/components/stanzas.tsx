@@ -1,55 +1,75 @@
 
 
 interface PoemViewProps {
-    poemContent: string[][];
+    poemContent: string[][][];
+    mode: string;
 }
-export const PoemView: React.FC<PoemViewProps> = ({ poemContent }) => {
+export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode }) => {
     //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
     //and parse it
+
+    //group data into different poemParagraph here, by default one paragraph made with 3 lines
+    //then render lines inside paragraph component
+    //consider using grids when switching to structure: under structure, 3 paragraph=1 column
     console.log(poemContent);
-    var poemStructure = (
-        <>
-            <div className="poemViewPort">
-                {
-                    poemContent.map((line, lineIndex) => (
-                        //group data into different poemParagraph here, by default one paragraph made with 3 lines
-                        //then render lines inside paragraph component
-                        //consider using grids when switching to structure: under structure, 3 paragraph=1 column
-                        <PoemLine key={lineIndex} lineContent={line}/>
-                    ))
-                }
-            </div>
-        </>
-    )
+    var poemStructure;
+    switch(mode){
+        case "structure":
+            poemStructure = (
+                <>
+                    <div className="poemViewPort">
+                        {
+                            poemContent.map((content, index) => (
+                                <PoemParagraph 
+                                    key={index} 
+                                    paragraphContent={content} 
+                                    color={
+                                        index % 2 === 0 ? "white" : "#EFEFEF"
+                                    }
+                                />
+                            ))
+                        }
+                    </div>
+                </>
+            )
+            break;
+        default:
+            poemStructure = (
+                <>
+                    <div className="poemViewPort">
+                        {
+                            poemContent.map((content, index) => (
+                                <PoemParagraph key={index} paragraphContent={content} color={"white"}/>
+                            ))
+                        }
+                    </div>
+                </>
+            )
+            break;
+    }
     return poemStructure;
 }
 
 
-// interface PoemParagraphProps {
-//     paragraphContent: string[];
-// }
-// export const PoemParagraph: React.FC<PoemParagraphProps> = ({ paragraphContent }) => {
-//     const poemStructure = (
-//         <>
-//         <div className="poemParagraph">
-//             {paragraphContent.map((line, lineIndex) => (
-//             <PoemLine key={lineIndex} lineContent={line} />
-//             ))}
-//         </div>
-//         </>
-//     );
-//     return poemStructure;
-// };
-// export const PoemParagraph = ({content}) => {
-//     const poemStructure = (
-//         <>
-//         <div className="poemParagraph">
-//             {content}
-//         </div>
-//         </>
-//     );
-//     return poemStructure;
-// }
+interface PoemParagraphProps {
+    paragraphContent: string[][];
+    color: string;
+}
+export const PoemParagraph: React.FC<PoemParagraphProps> = ({ paragraphContent, color }) => {
+    const componentStyle = {
+        backgroundColor: color,
+    }
+    const poemStructure = (
+            <>
+            <div className="poemParagraph" style={componentStyle}>
+                {paragraphContent.map((content, index) => (
+                <PoemLine key={index} lineContent={content} />
+                ))}
+            </div>
+        </>
+    );
+    return poemStructure;
+};
 
 interface PoemLineProps {
     lineContent:string[];

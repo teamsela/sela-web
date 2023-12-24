@@ -110,7 +110,7 @@ export const NavTools = ( {selectedButton, poem} ) => {
                 <div></div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} />
+                <PoemView poemContent={poem} mode="" />
             )
           break;
         case "structure":
@@ -125,7 +125,7 @@ export const NavTools = ( {selectedButton, poem} ) => {
                 </div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} />
+                <PoemView poemContent={poem} mode={selectedButton} />
             )
           break;
         default:
@@ -133,7 +133,7 @@ export const NavTools = ( {selectedButton, poem} ) => {
                 <div></div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} />
+                <PoemView poemContent={poem} mode="" />
             )
       }
     var navStructure = (
