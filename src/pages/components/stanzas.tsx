@@ -3,21 +3,25 @@
 interface PoemViewProps {
     poemContent: string[][][];
     mode: string;
+    fontSize: number;
 }
-export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode }) => {
+export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize }) => {
     //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
     //and parse it
-
     //group data into different poemParagraph here, by default one paragraph made with 3 lines
     //then render lines inside paragraph component
     //consider using grids when switching to structure: under structure, 3 paragraph=1 column
+
     console.log(poemContent);
+    const componentStyle = {
+        fontSize: fontSize,
+    }
     var poemStructure;
     switch(mode){
         case "structure":
             poemStructure = (
                 <>
-                    <div className="poemViewPort">
+                    <div className="poemViewPort structure" style={componentStyle}>
                         {
                             poemContent.map((content, index) => (
                                 <PoemParagraph 
@@ -36,7 +40,7 @@ export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode }) => {
         default:
             poemStructure = (
                 <>
-                    <div className="poemViewPort">
+                    <div className="poemViewPort" style={componentStyle}>
                         {
                             poemContent.map((content, index) => (
                                 <PoemParagraph key={index} paragraphContent={content} color={"white"}/>

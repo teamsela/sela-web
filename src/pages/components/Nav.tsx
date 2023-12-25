@@ -100,7 +100,7 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
-export const NavTools = ( {selectedButton, poem} ) => {
+export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown} ) => {
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
     var bodyContent;
@@ -110,7 +110,7 @@ export const NavTools = ( {selectedButton, poem} ) => {
                 <div></div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode="" />
+                <PoemView poemContent={poem} mode="" fontSize={fontSize} />
             )
           break;
         case "structure":
@@ -125,7 +125,7 @@ export const NavTools = ( {selectedButton, poem} ) => {
                 </div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode={selectedButton} />
+                <PoemView poemContent={poem} mode={selectedButton} fontSize={fontSize}/>
             )
           break;
         default:
@@ -133,13 +133,17 @@ export const NavTools = ( {selectedButton, poem} ) => {
                 <div></div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode="" />
+                <PoemView poemContent={poem} mode="" fontSize={fontSize}/>
             )
       }
     var navStructure = (
         <>
             <nav className="navTools nav">
-                <NavBasicTools />
+                <NavBasicTools 
+                    onFontSizeUp={onFontSizeUp} 
+                    onFontSizeDown={onFontSizeDown}
+                    fontSize={fontSize}
+                />
                 {navStanzaEdit}
             </nav>
             {bodyContent}
@@ -148,7 +152,7 @@ export const NavTools = ( {selectedButton, poem} ) => {
     return navStructure;
 }
 
-const NavBasicTools = () => {
+const NavBasicTools = ({ onFontSizeUp, onFontSizeDown, fontSize }) => {
     return (
         <div className="basicTools">
             <div>
@@ -160,8 +164,15 @@ const NavBasicTools = () => {
                     <Redo onClick={() => console.log("Redo")} />
                 </button>
             </div>
-            <div>
-                <img src="/img/navTools/zoomin.png" />
+            <div className="fontSize">
+                {/* <img src="/img/navTools/zoomin.png" /> */}
+                <button id="fontSizeUp" onClick={onFontSizeUp}>
+                    <img src="/img/navTools/fontSizeUp.svg" />
+                </button>
+                <p id="fontSizeView">{fontSize}</p>
+                <button id="fontSizeDown" onClick={onFontSizeDown}>
+                    <img src="/img/navTools/fontSizeDown.svg" />
+                </button>
             </div>
             <div>
                 <img src="/img/navTools/bg.png" />
