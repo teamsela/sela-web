@@ -105,7 +105,8 @@
     padding:10px 0;
 }
 .navTools .basicTools,
-.navTools .basicTools div{
+.navTools .basicTools div,
+.navTools .toolLeft{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -152,14 +153,6 @@
     margin-left:5px;
 }
 
-/* .colourPicker div, .sketch-picker{
-    display: block !important;
-    margin-right: 0 !important;
-} */
-.navTools.nav{
-    justify-content:flex-start;
-    align-items: center;
-}
 .navTools .colourPicker{
     padding:5px 0;
     display: flex;

@@ -157,33 +157,35 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
 const NavBasicTools = ({ onFontSizeUp, onFontSizeDown, fontSize }) => {
     return (
         <>
-            <div className="basicTools">
-                <div>
-                    <Link href="/">home</Link>
-                    <button className="flex-items">
-                        <Undo onClick={() => console.log("Undo")} />
-                    </button>
-                    <button className="flex-items">
-                        <Redo onClick={() => console.log("Redo")} />
-                    </button>
+            <div className="toolLeft">
+                <div className="basicTools">
+                    <div>
+                        <Link href="/">home</Link>
+                        <button className="flex-items">
+                            <Undo onClick={() => console.log("Undo")} />
+                        </button>
+                        <button className="flex-items">
+                            <Redo onClick={() => console.log("Redo")} />
+                        </button>
+                    </div>
+                    <div className="fontSize">
+                        {/* <img src="/img/navTools/zoomin.png" /> */}
+                        <button id="fontSizeUp" onClick={onFontSizeUp}>
+                            <img src="/img/navTools/fontSizeUp.svg" />
+                        </button>
+                        <p id="fontSizeView">{fontSize}</p>
+                        <button id="fontSizeDown" onClick={onFontSizeDown}>
+                            <img src="/img/navTools/fontSizeDown.svg" />
+                        </button>
+                    </div>
+                    <div>
+                        {/* <img src="/img/navTools/bg.png" /> */}
+                        <img src="/img/navTools/border.png" />
+                        <img src="/img/navTools/text.png" />
+                    </div>
                 </div>
-                <div className="fontSize">
-                    {/* <img src="/img/navTools/zoomin.png" /> */}
-                    <button id="fontSizeUp" onClick={onFontSizeUp}>
-                        <img src="/img/navTools/fontSizeUp.svg" />
-                    </button>
-                    <p id="fontSizeView">{fontSize}</p>
-                    <button id="fontSizeDown" onClick={onFontSizeDown}>
-                        <img src="/img/navTools/fontSizeDown.svg" />
-                    </button>
-                </div>
-                <div>
-                    {/* <img src="/img/navTools/bg.png" /> */}
-                    <img src="/img/navTools/border.png" />
-                    <img src="/img/navTools/text.png" />
-                </div>
+                <SketchExample />
             </div>
-            <SketchExample />
         </>
     )
 }
