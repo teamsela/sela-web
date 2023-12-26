@@ -111,7 +111,7 @@
     align-items: center;
 }
 .navTools .basicTools{
-    margin-left:10px;
+    margin-left:15px;
     padding:5px 0;
 }
 .navTools .basicTools div{
@@ -152,6 +152,20 @@
     margin-left:5px;
 }
 
+/* .colourPicker div, .sketch-picker{
+    display: block !important;
+    margin-right: 0 !important;
+} */
+.navTools.nav{
+    justify-content:flex-start;
+    align-items: center;
+}
+.navTools .colourPicker{
+    padding:5px 0;
+    display: flex;
+    /* align-items: center; */
+}
+
 
 
 .poemViewPort{
@@ -178,6 +192,7 @@
     /* margin-bottom: 0.25rem; */
     cursor: pointer;
 }
+
 
 /* style used to horizontally divide contents */
 /* .poemViewPort.structure{
