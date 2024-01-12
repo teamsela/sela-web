@@ -4,13 +4,18 @@ interface PoemViewProps {
     poemContent: string[][][];
     mode: string;
     fontSize: number;
+    
+    bgColour:any;
+    pickerStatus: boolean;
 }
-export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize }) => {
+export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize, bgColour, pickerStatus }) => {
     //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
     //and parse it
     //group data into different poemParagraph here, by default one paragraph made with 3 lines
     //then render lines inside paragraph component
     //consider using grids when switching to structure: under structure, 3 paragraph=1 column
+    var pickerOn=pickerStatus;
+    var background=bgColour;
 
     console.log(poemContent);
     const componentStyle = {
@@ -112,6 +117,9 @@ const PoemWord: React.FC<PoemWordProps> = ({ color, backgroundColor, borderColou
 
     const handleClick = () => {
         console.log(text);
+        // if(pickerOn){
+
+        // }
     };
       
     const poemStructure = (

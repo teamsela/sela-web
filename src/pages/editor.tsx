@@ -31,6 +31,40 @@ export default function Editor() {
         setFontSize(prevSize => prevSize - 2);
     };
 
+
+    const [colour, setColour] = useState(
+        {
+            color: {
+                r: '255',
+                g: '255',
+                b: '255',
+                a: '1',
+            },
+        }
+    );
+    const setNewColour = (newColour) => {
+        // setColour(newColour);
+        setColour( (prevColour) => ({
+                color: {
+                    r: newColour.r,
+                    g: newColour.g,
+                    b: newColour.b,
+                    a: newColour.a,
+                },
+            })
+        )
+        console.log(colour);
+    }
+
+    const [pickerStatus, setPickerStatus] = useState(false);
+    const setNewPickerStatus = (newState) => {
+        setPickerStatus(newState);
+        console.log(pickerStatus);
+    }
+
+    // console.log("colour is: " + colour.color.r);
+
+
     const poemTest = [
         [["A Psalm","of David"]],
         [["1 Give", "unto Yahweh", "sons", "You mighty ones", "Give", "unto Yahweh", "glory", "and strength"]],
@@ -72,6 +106,10 @@ export default function Editor() {
                 fontSize={fontSize} 
                 onFontSizeUp={increaseFontSize} 
                 onFontSizeDown={decreaseFontSize}
+                color={colour.color}
+                setNewColour={setNewColour}
+                pickerStatus={pickerStatus}
+                setPickerStatus={setNewPickerStatus}
             />
             {/* <ButtonAppBar /> */}
             <Toolbar className="flex-container">
@@ -89,3 +127,5 @@ export default function Editor() {
         </div>
     )
 }
+
+
