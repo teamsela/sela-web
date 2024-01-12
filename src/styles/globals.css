@@ -154,9 +154,31 @@
 }
 
 .navTools .colourPicker{
-    padding:5px 0;
+    /* padding:5px 0; */
     display: flex;
-    /* align-items: center; */
+    position: relative;
+}
+.navTools .colourSwatch{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.navTools .colourSwatch p{
+    text-align: center;
+    font-size: 1.25rem;
+    font-family: sans-serif;
+    margin-bottom: -0.2rem;
+}
+.navTools .colourSwatch img{
+    height: 1.05rem;
+    width: auto;
+    margin:0.1rem
+}
+.navTools .colourTools{
+    display: flex;
+}
+.navTools .colourTools .colourPicker{
+    margin-right: 1.25rem;
 }
 
 

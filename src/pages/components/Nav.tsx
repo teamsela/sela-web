@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { PoemView } from "./stanzas"
 
-import SketchExample from "./colourPicker";
+import { FontColour,BorderColour,BgColour } from "./colourPicker";
 
 
 function setLang(currentPage,setPage){
@@ -52,6 +52,14 @@ const NavMainLang = ({onLanguageChange}) => {
 
     return langSwitch;
 }
+
+//setting colour for word box
+
+
+
+
+
+
 function setNavMainUI(currentPage,setPage){
     switch(setPage){
         case "default":
@@ -178,13 +186,17 @@ const NavBasicTools = ({ onFontSizeUp, onFontSizeDown, fontSize }) => {
                             <img src="/img/navTools/fontSizeDown.svg" />
                         </button>
                     </div>
-                    <div>
-                        {/* <img src="/img/navTools/bg.png" /> */}
+                    {/* <div>
+                        <img src="/img/navTools/bg.png" />
                         <img src="/img/navTools/border.png" />
                         <img src="/img/navTools/text.png" />
-                    </div>
+                    </div> */}
                 </div>
-                <SketchExample />
+                <div className="colourTools">
+                    <BgColour />
+                    <BorderColour />
+                    <FontColour />
+                </div>
             </div>
         </>
     )
