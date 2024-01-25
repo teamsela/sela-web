@@ -1,3 +1,4 @@
+import { workerData } from "worker_threads";
 
 
 interface PoemViewProps {
@@ -7,8 +8,11 @@ interface PoemViewProps {
     
     bgColour:any;
     pickerStatus: boolean;
+
+    wordStatus: boolean;
+    setWordStatus:any;
 }
-export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize, bgColour, pickerStatus }) => {
+export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus,setWordStatus }) => {
     //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
     //and parse it
     //group data into different poemParagraph here, by default one paragraph made with 3 lines
@@ -35,7 +39,17 @@ export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize,
                                     color={
                                         index % 2 === 0 ? "white" : "#EFEFEF"
                                     }
-                                />
+                                >
+                                    {content.map((lineContent, index) => (
+                                        <PoemLine key={index} lineContent={lineContent}>
+                                            {
+                                                lineContent.map((word,wordIndex) => (
+                                                    <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+                                                ))
+                                            }
+                                        </PoemLine>
+                                    ))}
+                                </PoemParagraph>
                             ))
                         }
                     </div>
@@ -48,7 +62,17 @@ export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize,
                     <div className="poemViewPort" style={componentStyle}>
                         {
                             poemContent.map((content, index) => (
-                                <PoemParagraph key={index} paragraphContent={content} color={"white"}/>
+                                <PoemParagraph key={index} paragraphContent={content} color={"white"}>
+                                    {content.map((lineContent, index) => (
+                                        <PoemLine key={index} lineContent={lineContent}>
+                                            {
+                                                lineContent.map((word,wordIndex) => (
+                                                    <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+                                                ))
+                                            }
+                                        </PoemLine>
+                                    ))}
+                                </PoemParagraph>
                             ))
                         }
                     </div>
@@ -61,19 +85,19 @@ export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize,
 
 
 interface PoemParagraphProps {
+    key: number;
+    children: any;
     paragraphContent: string[][];
     color: string;
 }
-export const PoemParagraph: React.FC<PoemParagraphProps> = ({ paragraphContent, color }) => {
+export const PoemParagraph: React.FC<PoemParagraphProps> = ({ key,children, paragraphContent, color }) => {
     const componentStyle = {
         backgroundColor: color,
     }
     const poemStructure = (
             <>
-            <div className="poemParagraph" style={componentStyle}>
-                {paragraphContent.map((content, index) => (
-                <PoemLine key={index} lineContent={content} />
-                ))}
+            <div key={key} className="poemParagraph" style={componentStyle}>
+                {children}
             </div>
         </>
     );
@@ -81,17 +105,15 @@ export const PoemParagraph: React.FC<PoemParagraphProps> = ({ paragraphContent, 
 };
 
 interface PoemLineProps {
+    key: number;
+    children:any;
     lineContent:string[];
 }
-export const PoemLine:React.FC<PoemLineProps> = ( { lineContent } ) => {
+export const PoemLine:React.FC<PoemLineProps> = ( { key, children, lineContent } ) => {
     var poemStructure = (
         <>
-            <div className="poemLine">
-                {
-                    lineContent.map((word,wordIndex) => (
-                        <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word}/>
-                    ))
-                }
+            <div key={key} className="poemLine">
+                {children}
             </div>
         </>
     )
@@ -104,8 +126,11 @@ interface PoemWordProps {
     backgroundColor: string;
     borderColour:string;
     text: string;
+
+    wordStatus:boolean;
+    setWordStatus: any;
 }
-const PoemWord: React.FC<PoemWordProps> = ({ color, backgroundColor, borderColour, text }) => {
+const PoemWord: React.FC<PoemWordProps> = ({ color, backgroundColor, borderColour, text, wordStatus, setWordStatus }) => {
     const componentStyle = {
         color: color,
         backgroundColor: backgroundColor,
@@ -114,18 +139,31 @@ const PoemWord: React.FC<PoemWordProps> = ({ color, backgroundColor, borderColou
         borderRadius: '0.5rem',
         width:'fit-content',
     };
+    // console.log(setWordStatus);
 
     const handleClick = () => {
         console.log(text);
-        // if(pickerOn){
-
-        // }
+        console.log(wordStatus);
+        if(wordStatus){
+            wordStatus=false;
+            setWordStatus(wordStatus);
+        }
+        else{
+            wordStatus=true;
+            setWordStatus(wordStatus);
+        }
     };
       
     const poemStructure = (
         <>
         <div className="poemWord" style={componentStyle} onClick={handleClick}>
-            <p>{text}</p>
+            <p
+                style={
+                    wordStatus ? {backgroundColor: 'rgba(0,0,0,0.25)'} : {backgroundColor: 'rgba(0,0,0,0)'}
+                }
+            >
+                {text}
+            </p>
         </div>
         </>
     );

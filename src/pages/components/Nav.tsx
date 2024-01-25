@@ -110,7 +110,7 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
-export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus} ) => {
+export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus, wordStatus, setWordStatus} ) => {
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
     var bodyContent;
@@ -120,7 +120,7 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                 <div></div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus}/>
+                <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
             )
           break;
         case "structure":
@@ -135,7 +135,7 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                 </div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus}/>
+                <PoemView poemContent={poem} mode="structure" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
             )
           break;
         default:
@@ -143,7 +143,7 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                 <div></div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus}/>
+                <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
             )
       }
     var navStructure = (

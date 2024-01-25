@@ -62,6 +62,12 @@ export default function Editor() {
         console.log(pickerStatus);
     }
 
+    const [wordStatus, setWordStatus] = useState(false);
+    const setNewWordStatus = (newState) => {
+        setWordStatus(newState);
+        console.log(wordStatus);
+    }
+
     // console.log("colour is: " + colour.color.r);
 
 
@@ -110,6 +116,8 @@ export default function Editor() {
                 setNewColour={setNewColour}
                 pickerStatus={pickerStatus}
                 setPickerStatus={setNewPickerStatus}
+                wordStatus={wordStatus}
+                setWordStatus={setNewWordStatus}
             />
             {/* <ButtonAppBar /> */}
             <Toolbar className="flex-container">
