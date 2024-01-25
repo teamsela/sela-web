@@ -1,171 +1,177 @@
-import { workerData } from "worker_threads";
-
+import React, { Component } from "react";
 
 interface PoemViewProps {
     poemContent: string[][][];
     mode: string;
     fontSize: number;
-    
-    bgColour:any;
+    bgColour: any;
     pickerStatus: boolean;
-
     wordStatus: boolean;
-    setWordStatus:any;
-}
-export const PoemView: React.FC<PoemViewProps> = ({ poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus,setWordStatus }) => {
-    //receive an array like [ [1., build,jerusalem,the,lord],[2., the, lord, is, powerful] ]
-    //and parse it
-    //group data into different poemParagraph here, by default one paragraph made with 3 lines
-    //then render lines inside paragraph component
-    //consider using grids when switching to structure: under structure, 3 paragraph=1 column
-    var pickerOn=pickerStatus;
-    var background=bgColour;
-
-    console.log(poemContent);
-    const componentStyle = {
-        fontSize: fontSize,
-    }
-    var poemStructure;
-    switch(mode){
-        case "structure":
-            poemStructure = (
-                <>
-                    <div className="poemViewPort structure" style={componentStyle}>
-                        {
-                            poemContent.map((content, index) => (
-                                <PoemParagraph 
-                                    key={index} 
-                                    paragraphContent={content} 
-                                    color={
-                                        index % 2 === 0 ? "white" : "#EFEFEF"
-                                    }
-                                >
-                                    {content.map((lineContent, index) => (
-                                        <PoemLine key={index} lineContent={lineContent}>
-                                            {
-                                                lineContent.map((word,wordIndex) => (
-                                                    <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
-                                                ))
-                                            }
-                                        </PoemLine>
-                                    ))}
-                                </PoemParagraph>
-                            ))
-                        }
-                    </div>
-                </>
-            )
-            break;
-        default:
-            poemStructure = (
-                <>
-                    <div className="poemViewPort" style={componentStyle}>
-                        {
-                            poemContent.map((content, index) => (
-                                <PoemParagraph key={index} paragraphContent={content} color={"white"}>
-                                    {content.map((lineContent, index) => (
-                                        <PoemLine key={index} lineContent={lineContent}>
-                                            {
-                                                lineContent.map((word,wordIndex) => (
-                                                    <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
-                                                ))
-                                            }
-                                        </PoemLine>
-                                    ))}
-                                </PoemParagraph>
-                            ))
-                        }
-                    </div>
-                </>
-            )
-            break;
-    }
-    return poemStructure;
+    setWordStatus: any;
 }
 
+export class PoemView extends Component<PoemViewProps> {
+    render() {
+        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus } = this.props;
+
+        var pickerOn = pickerStatus;
+        var background = bgColour;
+
+        console.log(poemContent);
+        const componentStyle = {
+            fontSize: fontSize,
+        };
+        var poemStructure;
+        switch (mode) {
+            case "structure":
+                poemStructure = (
+                    <>
+                        <div className="poemViewPort" style={componentStyle}>
+                            {
+                                poemContent.map((content, index) => (
+                                    <PoemParagraph
+                                        key={index}
+                                        color={index % 2 === 0 ? "white" : "#EFEFEF"}
+                                    >
+                                        {content.map((lineContent, index) => (
+                                            <PoemLine key={index}>
+                                                {
+                                                    lineContent.map((word,wordIndex) => (
+                                                        <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+                                                    ))
+                                                }
+                                            </PoemLine>
+                                        ))}
+                                    </PoemParagraph>
+                                ))
+                            }
+                        </div>
+                    </>
+                );
+                break;
+            default:
+                poemStructure = (
+                    <>
+                        <div className="poemViewPort" style={componentStyle}>
+                            {
+                                poemContent.map((content, index) => (
+                                    <PoemParagraph key={index} color={"white"}>
+                                        {content.map((lineContent, index) => (
+                                            <PoemLine key={index}>
+                                                {
+                                                    lineContent.map((word,wordIndex) => (
+                                                        <PoemWord key={wordIndex} color="black" backgroundColor="white" borderColour="grey" text={word} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+                                                    ))
+                                                }
+                                            </PoemLine>
+                                        ))}
+                                    </PoemParagraph>
+                                ))
+                            }
+                        </div>
+                    </>
+                );
+                break;
+        }
+        return poemStructure;
+    }
+}
 
 interface PoemParagraphProps {
     key: number;
     children: any;
-    paragraphContent: string[][];
+    // paragraphContent: string[][];
     color: string;
+    // wordStatus: boolean;
+    // setWordStatus: any;
 }
-export const PoemParagraph: React.FC<PoemParagraphProps> = ({ key,children, paragraphContent, color }) => {
-    const componentStyle = {
-        backgroundColor: color,
-    }
-    const poemStructure = (
+
+export class PoemParagraph extends Component<PoemParagraphProps> {
+    render() {
+        const { key, children, color } = this.props;
+        const componentStyle = {
+            backgroundColor: color,
+        };
+        return (
             <>
-            <div key={key} className="poemParagraph" style={componentStyle}>
-                {children}
-            </div>
-        </>
-    );
-    return poemStructure;
-};
+                <div key={key} className="poemParagraph" style={componentStyle}>
+                    {children}
+                </div>
+            </>
+        );
+    }
+}
 
 interface PoemLineProps {
     key: number;
-    children:any;
-    lineContent:string[];
-}
-export const PoemLine:React.FC<PoemLineProps> = ( { key, children, lineContent } ) => {
-    var poemStructure = (
-        <>
-            <div key={key} className="poemLine">
-                {children}
-            </div>
-        </>
-    )
-    return poemStructure;
+    children: any;
+    // lineContent: string[];
+    // wordStatus: boolean;
+    // setWordStatus: any;
 }
 
+export class PoemLine extends Component<PoemLineProps> {
+    render() {
+        const { key, children } = this.props;
+        return (
+            <>
+                <div key={key} className="poemLine">
+                    {children}
+                </div>
+            </>
+        );
+    }
+}
 
 interface PoemWordProps {
     color: string;
     backgroundColor: string;
-    borderColour:string;
+    borderColour: string;
     text: string;
-
-    wordStatus:boolean;
+    wordStatus: boolean;
     setWordStatus: any;
 }
-const PoemWord: React.FC<PoemWordProps> = ({ color, backgroundColor, borderColour, text, wordStatus, setWordStatus }) => {
-    const componentStyle = {
-        color: color,
-        backgroundColor: backgroundColor,
-        border: '3px solid ' + borderColour,
-        padding:'0.25rem 1rem',
-        borderRadius: '0.5rem',
-        width:'fit-content',
-    };
-    // console.log(setWordStatus);
 
-    const handleClick = () => {
+export class PoemWord extends Component<PoemWordProps> {
+
+    state = {
+        selected: false,
+    };
+    handleClick = () => {
+        var { text, wordStatus, setWordStatus } = this.props;
         console.log(text);
         console.log(wordStatus);
-        if(wordStatus){
-            wordStatus=false;
-            setWordStatus(wordStatus);
+        // setWordStatus(!wordStatus);
+        if(this.state.selected){
+            this.setState({ selected: false })
         }
         else{
-            wordStatus=true;
-            setWordStatus(wordStatus);
+            this.setState({ selected: true })
         }
     };
-      
-    const poemStructure = (
-        <>
-        <div className="poemWord" style={componentStyle} onClick={handleClick}>
-            <p
-                style={
-                    wordStatus ? {backgroundColor: 'rgba(0,0,0,0.25)'} : {backgroundColor: 'rgba(0,0,0,0)'}
-                }
-            >
-                {text}
-            </p>
-        </div>
-        </>
-    );
-    return poemStructure;
-};
+
+    render() {
+        const { color, backgroundColor, borderColour, text, wordStatus } = this.props;
+        const componentStyle = {
+            color: color,
+            backgroundColor: backgroundColor,
+            border: '3px solid ' + borderColour,
+            padding: '0.25rem 1rem',
+            borderRadius: '0.5rem',
+            width: 'fit-content',
+        };
+
+        return (
+            <>
+                <div className="poemWord" style={componentStyle} onClick={this.handleClick}>
+                    <p
+                        style={this.state.selected ? { backgroundColor: 'rgba(0,0,0,0.25)' } : { backgroundColor: 'rgba(0,0,0,0)' }}
+                    >
+                        {text}
+                    </p>
+                </div>
+            </>
+        );
+    }
+}
+
