@@ -11,6 +11,7 @@ interface PoemViewProps {
 
     wordArray: [];
     updateNewArray:Function;
+    childState:any;
     // wordArrayAdd: Function;
 }
 
@@ -170,6 +171,32 @@ export class PoemWord extends Component<PoemWordProps> {
         super(props);
         this.setWordStatus=props.setWordStatus.bind(this);
         this.updateNewArray=props.updateNewArray.bind(this);
+        // if(!this.props.wordStatus){
+        //     this.state.selected=false;
+        // }
+        // console.log('renders')
+        this.state = {
+            selected: props.wordStatus,
+        };
+    }
+
+    state = {
+        selected: false,
+    };
+
+    componentDidUpdate(prevProps) {
+        // Update the internal state when the prop changes
+        //to prevent selecting everything when clicking, but ensures that everything is deselected when clear all is clicked in Nav
+        if (prevProps.wordStatus == true && this.props.wordStatus==false) {
+            this.setState({
+              selected: this.props.wordStatus,
+            });
+        }
+        // if (this.props.wordStatus !== prevProps.wordStatus) {
+        //   this.setState({
+        //     selected: this.props.wordStatus,
+        //   });
+        // }
     }
 
     addToArray = (array:[], target) => {
@@ -183,9 +210,6 @@ export class PoemWord extends Component<PoemWordProps> {
         this.updateNewArray(array);
     }
 
-    state = {
-        selected: false,
-    };
     handleClick = () => {
         var { text, wordStatus } = this.props;
         if(this.state.selected){
