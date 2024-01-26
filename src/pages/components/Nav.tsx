@@ -53,13 +53,6 @@ const NavMainLang = ({onLanguageChange}) => {
     return langSwitch;
 }
 
-//setting colour for word box
-
-
-
-
-
-
 function setNavMainUI(currentPage,setPage){
     switch(setPage){
         case "default":
@@ -110,19 +103,31 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
+// const poemContent = (type) => {
+//     var poem;
+//     switch(type){
+//         case "structure":
+//             poem = (
+//                 <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+//             )
+//     }
+// }
+
+
+// function removeWordSelection(target){
+//     array_wordSelection.remo
+// }
+
 export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus, wordStatus, setWordStatus} ) => {
+
+    var array_wordSelection:[] = [];
+    // function addWordSelection(target){
+    //     array_wordSelection.push(target);
+    // }
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
     var bodyContent;
     switch (selectedButton) {
-        case "default":
-            navStanzaEdit = (
-                <div></div>
-            );
-            bodyContent = (
-                <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
-            )
-          break;
         case "structure":
             navStanzaEdit = (
                 <div className="stanzaEdit">
@@ -135,7 +140,16 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                 </div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode="structure" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+                <PoemView 
+                    poemContent={poem} 
+                    mode="structure" 
+                    fontSize={fontSize} 
+                    bgColour={color} 
+                    pickerStatus={pickerStatus} 
+                    wordStatus={wordStatus} 
+                    setWordStatus={setWordStatus} 
+                    wordArray={array_wordSelection}
+                />
             )
           break;
         default:
@@ -143,7 +157,16 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                 <div></div>
             );
             bodyContent = (
-                <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+                <PoemView 
+                    poemContent={poem} 
+                    mode="" 
+                    fontSize={fontSize} 
+                    bgColour={color} 
+                    pickerStatus={pickerStatus} 
+                    wordStatus={wordStatus} 
+                    setWordStatus={setWordStatus} 
+                    wordArray={array_wordSelection}
+                />            
             )
       }
     var navStructure = (
@@ -181,7 +204,10 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                                 <img src="/img/navTools/text.png" />
                             </div> */}
                         </div>
-                        <div className="colourTools">
+                        <div 
+                            className="colourTools"
+                            style={ wordStatus ? {display:'inherit'} : {display:'none'} }
+                        >
                             <BgColour color={color} setNewColour={setNewColour} pickerStatus={pickerStatus} setPickerStatus={setPickerStatus} />
                             <BorderColour />
                             <FontColour />
