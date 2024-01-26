@@ -114,16 +114,19 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 // }
 
 
-// function removeWordSelection(target){
-//     array_wordSelection.remo
-// }
-
+import { useState } from "react";
 export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus, wordStatus, setWordStatus} ) => {
 
-    var array_wordSelection:[] = [];
-    // function addWordSelection(target){
-    //     array_wordSelection.push(target);
-    // }
+    //using state to monitor array status is necessary or array wont be updated correctly
+    const [array_word, updateArray] = useState([]);
+    const updateNewArray = (newArray) => {
+        updateArray(newArray);
+    }
+    const clearArray = () => {
+        updateArray([]);
+        setWordStatus(false);
+    };
+
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
     var bodyContent;
@@ -148,7 +151,8 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     pickerStatus={pickerStatus} 
                     wordStatus={wordStatus} 
                     setWordStatus={setWordStatus} 
-                    wordArray={array_wordSelection}
+                    wordArray={array_word}
+                    updateNewArray={updateNewArray}
                 />
             )
           break;
@@ -165,7 +169,8 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     pickerStatus={pickerStatus} 
                     wordStatus={wordStatus} 
                     setWordStatus={setWordStatus} 
-                    wordArray={array_wordSelection}
+                    wordArray={array_word}
+                    updateNewArray={updateNewArray}
                 />            
             )
       }
@@ -211,6 +216,9 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                             <BgColour color={color} setNewColour={setNewColour} pickerStatus={pickerStatus} setPickerStatus={setPickerStatus} />
                             <BorderColour />
                             <FontColour />
+                            <button onClick={clearArray}>
+                                <p>Clear All</p>
+                            </button>
                         </div>
                     </div>
                 {navStanzaEdit}

@@ -10,12 +10,13 @@ interface PoemViewProps {
     setWordStatus: Function;
 
     wordArray: [];
+    updateNewArray:Function;
     // wordArrayAdd: Function;
 }
 
 export class PoemView extends Component<PoemViewProps> {
     render() {
-        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus, wordArray} = this.props;
+        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus, wordArray, updateNewArray} = this.props;
 
         var pickerOn = pickerStatus;
         var background = bgColour;
@@ -49,6 +50,7 @@ export class PoemView extends Component<PoemViewProps> {
                                                             wordStatus={wordStatus} 
                                                             setWordStatus={setWordStatus} 
                                                             wordArray={wordArray}
+                                                            updateNewArray={updateNewArray}
                                                             // wordArrayAdd={wordArrayAdd}
                                                         />
                                                     ))
@@ -82,6 +84,7 @@ export class PoemView extends Component<PoemViewProps> {
                                                             wordStatus={wordStatus} 
                                                             setWordStatus={setWordStatus} 
                                                             wordArray={wordArray}
+                                                            updateNewArray={updateNewArray}
                                                             // wordArrayAdd={wordArrayAdd}
                                                         />
                                                     ))
@@ -152,27 +155,32 @@ interface PoemWordProps {
     borderColour: string;
     text: string;
     wordStatus: boolean;
-    setWordStatus: any;
+    setWordStatus: Function;
     wordArray: [];
+    updateNewArray: Function;
     // wordArrayAdd: Function;
 }
 
 export class PoemWord extends Component<PoemWordProps> {
 
-    setWordStatus;
+    setWordStatus:Function;
+    updateNewArray:Function;
     // wordArrayAdd;
     constructor(props:any){
         super(props);
         this.setWordStatus=props.setWordStatus.bind(this);
+        this.updateNewArray=props.updateNewArray.bind(this);
     }
 
     addToArray = (array:[], target) => {
         array.push(target);
+        this.updateNewArray(array);
     }
     removeFromArray = (array:[], target) => {
         var removeTarget = array.indexOf(target);
         array.splice(removeTarget, 1);
         console.log(removeTarget);
+        this.updateNewArray(array);
     }
 
     state = {
@@ -201,8 +209,18 @@ export class PoemWord extends Component<PoemWordProps> {
         }
         else{
             this.setWordStatus(false);
+            // this.state.selected=false;
         }
     };
+
+    // toggleWordState = () => {
+    //     if(this.props.wordStatus){
+    //         this.state.selected=true;
+    //     }
+    //     else{
+    //         this.state.selected=false;
+    //     }
+    // }
 
     render() {
         const { color, backgroundColor, borderColour, text, wordStatus } = this.props;

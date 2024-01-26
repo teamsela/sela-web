@@ -220,6 +220,15 @@
     cursor: pointer;
 }
 
+.colourTools button {
+    padding:0.25rem 0.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+}
+.colourTools button p{
+    /* font-family: sans-serif; */
+}
+
 
 /* style used to horizontally divide contents */
 /* .poemViewPort.structure{
