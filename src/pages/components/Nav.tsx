@@ -6,6 +6,8 @@ import Link from "next/link";
 
 import { PoemView } from "./stanzas"
 
+import { FontColour,BorderColour,BgColour } from "./colourPicker";
+
 
 function setLang(currentPage,setPage){
     switch(setPage){
@@ -50,6 +52,7 @@ const NavMainLang = ({onLanguageChange}) => {
 
     return langSwitch;
 }
+
 function setNavMainUI(currentPage,setPage){
     switch(setPage){
         case "default":
@@ -100,15 +103,34 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
-export const NavTools = ( {selectedButton, poem} ) => {
+// const poemContent = (type) => {
+//     var poem;
+//     switch(type){
+//         case "structure":
+//             poem = (
+//                 <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
+//             )
+//     }
+// }
+
+
+import { useState } from "react";
+export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus, wordStatus, setWordStatus} ) => {
+
+    //using state to monitor array status is necessary or array wont be updated correctly
+    const [array_word, updateArray] = useState([]);
+    const updateNewArray = (newArray) => {
+        updateArray(newArray);
+    }
+    const clearArray = () => {
+        updateArray([]);
+        setWordStatus(false);
+    };
+
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
+    var bodyContent;
     switch (selectedButton) {
-        case "default":
-            navStanzaEdit = (
-                <div></div>
-            );
-          break;
         case "structure":
             navStanzaEdit = (
                 <div className="stanzaEdit">
@@ -120,51 +142,166 @@ export const NavTools = ( {selectedButton, poem} ) => {
                     <NavToolsButton title="Block Size"/>
                 </div>
             );
+            bodyContent = (
+                <PoemView 
+                    poemContent={poem} 
+                    mode="structure" 
+                    fontSize={fontSize} 
+                    bgColour={color} 
+                    pickerStatus={pickerStatus} 
+                    wordStatus={wordStatus} 
+                    setWordStatus={setWordStatus} 
+                    wordArray={array_word}
+                    updateNewArray={updateNewArray}
+                />
+            )
           break;
         default:
             navStanzaEdit = (
                 <div></div>
             );
+            bodyContent = (
+                <PoemView 
+                    poemContent={poem} 
+                    mode="" 
+                    fontSize={fontSize} 
+                    bgColour={color} 
+                    pickerStatus={pickerStatus} 
+                    wordStatus={wordStatus} 
+                    setWordStatus={setWordStatus} 
+                    wordArray={array_word}
+                    updateNewArray={updateNewArray}
+                />            
+            )
       }
     var navStructure = (
         <>
             <nav className="navTools nav">
-                <NavBasicTools />
+                {/* <NavBasicTools 
+                    onFontSizeUp={onFontSizeUp} 
+                    onFontSizeDown={onFontSizeDown}
+                    fontSize={fontSize}
+                /> */}
+                    <div className="toolLeft">
+                        <div className="basicTools">
+                            <div>
+                                <Link href="/">home</Link>
+                                <button className="flex-items">
+                                    <Undo onClick={() => console.log("Undo")} />
+                                </button>
+                                <button className="flex-items">
+                                    <Redo onClick={() => console.log("Redo")} />
+                                </button>
+                            </div>
+                            <div className="fontSize">
+                                {/* <img src="/img/navTools/zoomin.png" /> */}
+                                <button id="fontSizeUp" onClick={onFontSizeUp}>
+                                    <img src="/img/navTools/fontSizeUp.svg" />
+                                </button>
+                                <p id="fontSizeView">{fontSize}</p>
+                                <button id="fontSizeDown" onClick={onFontSizeDown}>
+                                    <img src="/img/navTools/fontSizeDown.svg" />
+                                </button>
+                            </div>
+                            {/* <div>
+                                <img src="/img/navTools/bg.png" />
+                                <img src="/img/navTools/border.png" />
+                                <img src="/img/navTools/text.png" />
+                            </div> */}
+                        </div>
+                        <div 
+                            className="colourTools"
+                            style={ wordStatus ? {display:'inherit'} : {display:'none'} }
+                        >
+                            <BgColour color={color} setNewColour={setNewColour} pickerStatus={pickerStatus} setPickerStatus={setPickerStatus} />
+                            <BorderColour />
+                            <FontColour />
+                            <button onClick={clearArray}>
+                                <p>Clear All</p>
+                            </button>
+                        </div>
+                    </div>
                 {navStanzaEdit}
             </nav>
-
-            <PoemView poemContent={poem} />
+            {bodyContent}
         </>
     )
     return navStructure;
 }
 
-const NavBasicTools = () => {
-    return (
-        <div className="basicTools">
-            <div>
-                <Link href="/">home</Link>
-                <button className="flex-items">
-                    <Undo onClick={() => console.log("Undo")} />
-                </button>
-                <button className="flex-items">
-                    <Redo onClick={() => console.log("Redo")} />
-                </button>
-            </div>
-            <div>
-                <img src="/img/navTools/zoomin.png" />
-            </div>
-            <div>
-                <img src="/img/navTools/bg.png" />
-                <img src="/img/navTools/border.png" />
-                <img src="/img/navTools/text.png" />
-            </div>
-        </div>
-    )
-}
+// const NavBasicTools = ({ onFontSizeUp, onFontSizeDown, fontSize }) => {
+//     return (
+//         <>
+//             <div className="toolLeft">
+//                 <div className="basicTools">
+//                     <div>
+//                         <Link href="/">home</Link>
+//                         <button className="flex-items">
+//                             <Undo onClick={() => console.log("Undo")} />
+//                         </button>
+//                         <button className="flex-items">
+//                             <Redo onClick={() => console.log("Redo")} />
+//                         </button>
+//                     </div>
+//                     <div className="fontSize">
+//                         {/* <img src="/img/navTools/zoomin.png" /> */}
+//                         <button id="fontSizeUp" onClick={onFontSizeUp}>
+//                             <img src="/img/navTools/fontSizeUp.svg" />
+//                         </button>
+//                         <p id="fontSizeView">{fontSize}</p>
+//                         <button id="fontSizeDown" onClick={onFontSizeDown}>
+//                             <img src="/img/navTools/fontSizeDown.svg" />
+//                         </button>
+//                     </div>
+//                     {/* <div>
+//                         <img src="/img/navTools/bg.png" />
+//                         <img src="/img/navTools/border.png" />
+//                         <img src="/img/navTools/text.png" />
+//                     </div> */}
+//                 </div>
+//                 <div className="colourTools">
+//                     <BgColour />
+//                     <BorderColour />
+//                     <FontColour />
+//                 </div>
+//             </div>
+//         </>
+//     )
+// }
 
 const NavToolsButton = (props) => {
     return (
         <button className="">{props.title}</button>
     );
 }
+
+
+
+// import { createContext, useContext, useState } from 'react';
+
+// const SharedStateContext = createContext();
+
+// export const SharedStateProvider = ({ children }) => {
+
+//     const [color, setColor] = useState({
+//       r: '241',
+//       g: '112',
+//       b: '19',
+//       a: '1',
+//     });
+  
+//     return (
+//       <SharedStateContext.Provider value={{ color, setColor }}>
+//         {children}
+//       </SharedStateContext.Provider>
+//     );
+
+// };
+
+// export const useSharedState = () => {
+//   const context = useContext(SharedStateContext);
+//   if (!context) {
+//     throw new Error('useSharedState must be used within a SharedStateProvider');
+//   }
+//   return context;
+// };

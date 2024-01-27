@@ -3,7 +3,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { Undo, Redo } from '@mui/icons-material';
 import Link from "next/link";
 
-import {NavMain,NavTools} from "./components/Nav"
+import {NavMain,NavTools, NavBasicTools} from "./components/Nav"
 import { useState,useReducer } from "react";
 
 
@@ -23,11 +23,73 @@ export default function Editor() {
       console.log(selectedButton);
     };
 
+    const [fontSize, setFontSize] = useState(16);
+    const increaseFontSize = () => {
+        setFontSize(prevSize => prevSize + 2);
+    };
+    const decreaseFontSize = () => {
+        setFontSize(prevSize => prevSize - 2);
+    };
+
+
+    const [colour, setColour] = useState(
+        {
+            color: {
+                r: '255',
+                g: '255',
+                b: '255',
+                a: '1',
+            },
+        }
+    );
+    const setNewColour = (newColour) => {
+        // setColour(newColour);
+        setColour( (prevColour) => ({
+                color: {
+                    r: newColour.r,
+                    g: newColour.g,
+                    b: newColour.b,
+                    a: newColour.a,
+                },
+            })
+        )
+        console.log(colour);
+    }
+
+    const [pickerStatus, setPickerStatus] = useState(false);
+    const setNewPickerStatus = (newState) => {
+        setPickerStatus(newState);
+        console.log(pickerStatus);
+    }
+
+    const [wordStatus, setWordStatus] = useState(false);
+    const setNewWordStatus = (newState) => {
+        setWordStatus(newState);
+        console.log(wordStatus);
+    }
+
+    // console.log("colour is: " + colour.color.r);
+
+
     const poemTest = [
         [["A Psalm","of David"]],
-        [["1 Give", "unto Yahweh", "sons", "You mighty ones"], ["Give", "unto Yahweh", "glory", "and strength"]],
-        [["2 Give", "unto Yahweh", "The glory due to", "His name"], ["Worship", "Yahweh", "In the beauty", "of Holiness"]],
-        [["3 The voice", "of Yahweh", "[is] over", "the waters"], ["the God", "of glory", "thunders"], ["Yahweh [is]", "over", "waters", "many"]],];
+        [["1 Give", "unto Yahweh", "sons", "You mighty ones", "Give", "unto Yahweh", "glory", "and strength"]],
+        [["2 Give", "unto Yahweh", "The glory due to", "His name", "Worship", "Yahweh", "In the beauty", "of Holiness"]],
+        [["3 The voice", "of Yahweh", "[is] over", "the waters", "the God", "of glory", "thunders", "Yahweh [is]", "over", "waters", "many"]],
+        [["4 The voice", "of Yahweh", "[is] powerful", "The voice", "of Yahweh", "[is full] of majesty"]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+        [["5 the voice", "of Yahweh", "breaks", "the cedars", "And yes splinters", "Yahweh", "-", "the cedars", "of lebanon",]],
+    ];
     
     const poemTest2 = [
         { 
@@ -44,7 +106,19 @@ export default function Editor() {
                 selectedButton={selectedButton}
                 onSelectButton={handleSelectButton}
             />
-            <NavTools selectedButton={selectedButton} poem={poemTest}/>
+            <NavTools 
+                selectedButton={selectedButton} 
+                poem={poemTest} 
+                fontSize={fontSize} 
+                onFontSizeUp={increaseFontSize} 
+                onFontSizeDown={decreaseFontSize}
+                color={colour.color}
+                setNewColour={setNewColour}
+                pickerStatus={pickerStatus}
+                setPickerStatus={setNewPickerStatus}
+                wordStatus={wordStatus}
+                setWordStatus={setNewWordStatus}
+            />
             {/* <ButtonAppBar /> */}
             <Toolbar className="flex-container">
                 <Link href="/">home</Link>
@@ -61,3 +135,5 @@ export default function Editor() {
         </div>
     )
 }
+
+
