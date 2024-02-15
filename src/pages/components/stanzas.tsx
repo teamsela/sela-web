@@ -14,12 +14,13 @@ interface PoemViewProps {
     childState:any;
 
     colour_Bg:object;
+    bgButtonClicked:boolean;
     // wordArrayAdd: Function;
 }
 
 export class PoemView extends Component<PoemViewProps> {
     render() {
-        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus, wordArray, updateNewArray, colour_Bg} = this.props;
+        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus, wordArray, updateNewArray, colour_Bg, bgButtonClicked} = this.props;
 
         var pickerOn = pickerStatus;
         var background = bgColour;
@@ -55,6 +56,7 @@ export class PoemView extends Component<PoemViewProps> {
                                                             wordArray={wordArray}
                                                             updateNewArray={updateNewArray}
                                                             // wordArrayAdd={wordArrayAdd}
+                                                            bgButtonClicked={bgButtonClicked}
                                                         />
                                                     ))
                                                 }
@@ -89,6 +91,7 @@ export class PoemView extends Component<PoemViewProps> {
                                                             wordArray={wordArray}
                                                             updateNewArray={updateNewArray}
                                                             // wordArrayAdd={wordArrayAdd}
+                                                            bgButtonClicked={bgButtonClicked}
                                                         />
                                                     ))
                                                 }
@@ -162,6 +165,7 @@ interface PoemWordProps {
     wordArray: [];
     updateNewArray: Function;
     // wordArrayAdd: Function;
+    bgButtonClicked:boolean;
 }
 
 export class PoemWord extends Component<PoemWordProps> {
@@ -192,13 +196,20 @@ export class PoemWord extends Component<PoemWordProps> {
               selected: this.props.wordStatus,
             });
         }
-        if (this.state.colour_Bg  !== this.props.backgroundColor) {
+        // if the colour of this word's state is different from backgroundColour AND picker button is clicked
+        //ensures that colour changes only when the picker button is clicked
+        if (this.state.colour_Bg !== this.props.backgroundColor && prevProps.bgButtonClicked != this.props.bgButtonClicked) {
             if(this.state.selected){
                 console.log('colour change')
+                console.log(this.props.bgButtonClicked);
                 this.setState({ colour_Bg: this.props.backgroundColor });
                 console.log(this.props.backgroundColor)
             }
         }
+        //consider this structure:
+            //if( this local bg != props.backgroundColour && bucket button is clicked){
+            //  change colour    
+            //}
     }
 
     addToArray = (array:[], target) => {

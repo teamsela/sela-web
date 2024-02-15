@@ -12,6 +12,7 @@ class ColourPicker extends React.Component {
   setNewColour= () => {};
   setPickerStatus= () => {};
   updateBgColour = () => {};
+  handleButtonClick = () => {}
 
   colour_bg='';
 
@@ -80,6 +81,7 @@ class ColourPicker extends React.Component {
     //   this.setPickerStatus(true);
     // }
     this.updateBgColour(this.state.color);
+    this.handleButtonClick();
   }
 
   handleClose = () => {
@@ -193,6 +195,8 @@ export class BgColour extends ColourPicker{
 
     this.updateBgColour = props.setColourBg.bind(this);
     this.colour_bg=props.colour_Bg;
+    
+    this.handleButtonClick = props.handleButtonClick.bind(this);
   }
   handleChange = (color) => {
     this.setState({ color: color.rgb })

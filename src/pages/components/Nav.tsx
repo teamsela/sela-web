@@ -103,7 +103,7 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus, wordStatus, setWordStatus} ) => {
 
     //codes that mananges select/deSelect function for poem word boxes
@@ -122,6 +122,13 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
         update_colourBg(newColour);
     }
 
+    //detect if the colour picker button is clicked
+    const [bgButtonClicked, handleBgButton] = useState(false);
+    const handleButtonClick = () => {
+        // Update the state when the button is clicked
+        handleBgButton(prevState => !prevState);
+    };
+    
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
     var bodyContent;
@@ -150,6 +157,7 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     updateNewArray={updateNewArray}
 
                     colour_Bg = {colour_Bg}
+                    bgButtonClicked = {bgButtonClicked}
                 />
             )
           break;
@@ -170,6 +178,7 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     updateNewArray={updateNewArray}
 
                     colour_Bg = {colour_Bg}
+                    bgButtonClicked = {bgButtonClicked}
                 />            
             )
       }
@@ -220,6 +229,7 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
 
                                 colour_Bg = {colour_Bg}
                                 setColourBg = {updateBgColour}
+                                handleButtonClick = {handleButtonClick}
                             />
                             <BorderColour />
                             <FontColour />
