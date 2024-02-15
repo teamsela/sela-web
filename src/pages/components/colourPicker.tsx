@@ -11,6 +11,9 @@ class ColourPicker extends React.Component {
   myType="";
   setNewColour= () => {};
   setPickerStatus= () => {};
+  updateBgColour = () => {};
+
+  colour_bg='';
 
   constructor(props:any){
     super(props);
@@ -49,31 +52,34 @@ class ColourPicker extends React.Component {
         console.log("default reflection");
     }
   };
+
+  //switching style when the picker is clicked
   handleSelect = () => {
-    if(this.state.selected){
-      this.setState({selected:false});
-      this.setState({selectColor:
-        {
-          r: '0',
-          g: '0',
-          b: '0',
-          a: '0',
-        }
-      })
-      this.setPickerStatus(false);
-    }
-    else{
-      this.setState({selected:true});
-      this.setState({selectColor:
-        {
-          r: '0',
-          g: '0',
-          b: '0',
-          a: '0.25',
-        }
-      })
-      this.setPickerStatus(true);
-    }
+    // if(this.state.selected){
+    //   this.setState({selected:false});
+    //   this.setState({selectColor:
+    //     {
+    //       r: '0',
+    //       g: '0',
+    //       b: '0',
+    //       a: '0',
+    //     }
+    //   })
+    //   this.setPickerStatus(false);
+    // }
+    // else{
+    //   this.setState({selected:true});
+    //   this.setState({selectColor:
+    //     {
+    //       r: '0',
+    //       g: '0',
+    //       b: '0',
+    //       a: '0.25',
+    //     }
+    //   })
+    //   this.setPickerStatus(true);
+    // }
+    this.updateBgColour(this.state.color);
   }
 
   handleClose = () => {
@@ -175,6 +181,8 @@ export class BorderColour extends ColourPicker{
 }
 export class BgColour extends ColourPicker{
   myType="bg";
+  // setBgColour = () => {};
+
   constructor(props:any){
     super(props);
     console.log(props.color);
@@ -182,11 +190,15 @@ export class BgColour extends ColourPicker{
     this.state.selected=props.selected
     this.setNewColour=props.setNewColour.bind(this);
     this.setPickerStatus=props.setPickerStatus.bind(this);
+
+    this.updateBgColour = props.setColourBg.bind(this);
+    this.colour_bg=props.colour_Bg;
   }
   handleChange = (color) => {
     this.setState({ color: color.rgb })
     this.setNewColour(color.rgb);
   };
+
   render() {
     return this.renderUi('bg');
   }

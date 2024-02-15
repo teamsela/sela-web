@@ -103,20 +103,10 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
-// const poemContent = (type) => {
-//     var poem;
-//     switch(type){
-//         case "structure":
-//             poem = (
-//                 <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
-//             )
-//     }
-// }
-
-
 import { useState } from "react";
 export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus, wordStatus, setWordStatus} ) => {
 
+    //codes that mananges select/deSelect function for poem word boxes
     //using state to monitor array status is necessary or array wont be updated correctly
     const [array_word, updateArray] = useState([]);
     const updateNewArray = (newArray) => {
@@ -126,6 +116,11 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
         updateArray([]);
         setWordStatus(false);
     };
+
+    const [colour_Bg, update_colourBg] = useState([{r:"255",g:"255",b:"255",a:"1"}]);
+    const updateBgColour = (newColour) => {
+        update_colourBg(newColour);
+    }
 
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
@@ -153,6 +148,8 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     setWordStatus={setWordStatus} 
                     wordArray={array_word}
                     updateNewArray={updateNewArray}
+
+                    colour_Bg = {colour_Bg}
                 />
             )
           break;
@@ -171,6 +168,8 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     setWordStatus={setWordStatus} 
                     wordArray={array_word}
                     updateNewArray={updateNewArray}
+
+                    colour_Bg = {colour_Bg}
                 />            
             )
       }
@@ -213,7 +212,15 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                             className="colourTools"
                             style={ wordStatus ? {display:'inherit'} : {display:'none'} }
                         >
-                            <BgColour color={color} setNewColour={setNewColour} pickerStatus={pickerStatus} setPickerStatus={setPickerStatus} />
+                            <BgColour 
+                                color={color} 
+                                setNewColour={setNewColour} 
+                                pickerStatus={pickerStatus} 
+                                setPickerStatus={setPickerStatus} 
+
+                                colour_Bg = {colour_Bg}
+                                setColourBg = {updateBgColour}
+                            />
                             <BorderColour />
                             <FontColour />
                             <button onClick={clearArray}>

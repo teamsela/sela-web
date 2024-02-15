@@ -12,12 +12,14 @@ interface PoemViewProps {
     wordArray: [];
     updateNewArray:Function;
     childState:any;
+
+    colour_Bg:object;
     // wordArrayAdd: Function;
 }
 
 export class PoemView extends Component<PoemViewProps> {
     render() {
-        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus, wordArray, updateNewArray} = this.props;
+        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus, wordArray, updateNewArray, colour_Bg} = this.props;
 
         var pickerOn = pickerStatus;
         var background = bgColour;
@@ -45,7 +47,7 @@ export class PoemView extends Component<PoemViewProps> {
                                                         <PoemWord 
                                                             key={wordIndex} 
                                                             color="black" 
-                                                            backgroundColor="white" 
+                                                            backgroundColor={colour_Bg} 
                                                             borderColour="grey" 
                                                             text={word} 
                                                             wordStatus={wordStatus} 
@@ -79,7 +81,7 @@ export class PoemView extends Component<PoemViewProps> {
                                                         <PoemWord 
                                                             key={wordIndex} 
                                                             color="black" 
-                                                            backgroundColor="white" 
+                                                            backgroundColor={colour_Bg} 
                                                             borderColour="grey" 
                                                             text={word} 
                                                             wordStatus={wordStatus} 
@@ -152,7 +154,7 @@ export class PoemLine extends Component<PoemLineProps> {
 
 interface PoemWordProps {
     color: string;
-    backgroundColor: string;
+    backgroundColor: object;
     borderColour: string;
     text: string;
     wordStatus: boolean;
@@ -171,17 +173,15 @@ export class PoemWord extends Component<PoemWordProps> {
         super(props);
         this.setWordStatus=props.setWordStatus.bind(this);
         this.updateNewArray=props.updateNewArray.bind(this);
-        // if(!this.props.wordStatus){
-        //     this.state.selected=false;
-        // }
-        // console.log('renders')
         this.state = {
             selected: props.wordStatus,
+            colour_Bg: props.backgroundColor
         };
     }
 
     state = {
         selected: false,
+        colour_Bg: {},
     };
 
     componentDidUpdate(prevProps) {
@@ -192,11 +192,13 @@ export class PoemWord extends Component<PoemWordProps> {
               selected: this.props.wordStatus,
             });
         }
-        // if (this.props.wordStatus !== prevProps.wordStatus) {
-        //   this.setState({
-        //     selected: this.props.wordStatus,
-        //   });
-        // }
+        if (this.state.colour_Bg  !== this.props.backgroundColor) {
+            if(this.state.selected){
+                console.log('colour change')
+                this.setState({ colour_Bg: this.props.backgroundColor });
+                console.log(this.props.backgroundColor)
+            }
+        }
     }
 
     addToArray = (array:[], target) => {
@@ -215,42 +217,30 @@ export class PoemWord extends Component<PoemWordProps> {
         if(this.state.selected){
             this.setState({ selected: false })
             this.removeFromArray(this.props.wordArray, this.props.text);
-            console.log("removed "+this.props.text);
+            // console.log("removed "+this.props.text);
         }
         else{
             this.setState({ selected: true })
             this.addToArray(this.props.wordArray, this.props.text);
-            console.log("added "+this.props.text);
+            // console.log("added "+this.props.text);
         }
-
-        // console.log(text);
-        // console.log(wordStatus);
-        console.log(this.props.wordArray);
-        console.log("arr len: "+this.props.wordArray.length);
-
+        // console.log(this.props.wordArray);
+        // console.log("arr len: "+this.props.wordArray.length);
         if(this.props.wordArray.length>0){
             this.setWordStatus(true);
         }
         else{
             this.setWordStatus(false);
-            // this.state.selected=false;
         }
     };
 
-    // toggleWordState = () => {
-    //     if(this.props.wordStatus){
-    //         this.state.selected=true;
-    //     }
-    //     else{
-    //         this.state.selected=false;
-    //     }
-    // }
-
     render() {
-        const { color, backgroundColor, borderColour, text, wordStatus } = this.props;
+        const { color, borderColour, text } = this.props;
+        
+        const bgColourValue = `rgba(${this.state.colour_Bg.r}, ${this.state.colour_Bg.g}, ${this.state.colour_Bg.b}, ${this.state.colour_Bg.a})`
         const componentStyle = {
             color: color,
-            backgroundColor: backgroundColor,
+            backgroundColor: bgColourValue,
             border: '3px solid ' + borderColour,
             padding: '0.25rem 1rem',
             borderRadius: '0.5rem',
