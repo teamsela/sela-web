@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { Undo, Redo } from '@mui/icons-material';
 import Link from "next/link";
 
-import { PoemView } from "./stanzas"
+import PoemView from "./stanzas"
 
 import { FontColour,BorderColour,BgColour } from "./colourPicker";
 

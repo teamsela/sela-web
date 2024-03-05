@@ -229,6 +229,84 @@
     /* font-family: sans-serif; */
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+  
+  #root {
+    width: 100%;
+    height: 100vh;
+  }
+  
+  .container {
+    padding: 50px;
+  }
+  
+  .elements-container {
+    display: grid;
+    grid-template-columns: 180px;
+    gap: 10px 10px;
+  }
+  
+  .element {
+    width: 180px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .element:hover:not(.selected) {
+    background-color: rgb(242, 242, 242);
+  }
+  
+  .element:focus {
+    outline: none;
+    border-color: rgb(0, 117, 196);
+    box-shadow: 0 0 4px 1px rgb(0, 117, 196);
+  }
+  
+  .selected {
+    background-color: rgb(179, 222, 248);
+  }
+  
+  .selection-box-info {
+    margin-top: 10px;
+  }
+  
+  .componentsGrid {
+    display: grid;
+    grid-template-columns: max-content auto;
+    gap: 30px;
+  }
+  
+  .multiControls {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .notesList {
+    padding-inline-start: 15px;
+    padding-bottom: 40px;
+  }
+  
+
 
 /* style used to horizontally divide contents */
 /* .poemViewPort.structure{
