@@ -30,6 +30,7 @@
     "react": "18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "18.2.0",
+    "react-selectable": "^2.1.1",
     "reactcss": "^1.2.3",
     "superjson": "^1.13.1",
     "zod": "^3.22.4"

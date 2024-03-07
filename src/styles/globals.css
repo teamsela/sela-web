@@ -257,7 +257,6 @@ body {
   
   .elements-container {
     display: grid;
-    grid-template-columns: 180px;
     gap: 10px 10px;
   }
   
@@ -292,7 +291,6 @@ body {
   
   .componentsGrid {
     display: grid;
-    grid-template-columns: max-content auto;
     gap: 30px;
   }
   
@@ -305,6 +303,9 @@ body {
     padding-inline-start: 15px;
     padding-bottom: 40px;
   }
+
+  
+  
   
 
 
