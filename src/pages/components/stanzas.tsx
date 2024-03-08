@@ -64,10 +64,13 @@ export const PoemView: React.FC<PoemViewProps> = ({
           left: box.left + window.scrollX
         };
         setSelectionBox(scrollAwareBox);
+
+        //detecting if target is selected
         const indexesToSelect: number[] = [];
         selectableItems.current.forEach((item, index) => {
           if (boxesIntersect(scrollAwareBox, item)) {
             indexesToSelect.push(index);
+            console.log(item);
           }
         });
         
@@ -92,14 +95,21 @@ export const PoemView: React.FC<PoemViewProps> = ({
     useEffect(() => {
         console.log(elementsContainerRef.current);
         if (elementsContainerRef.current) {
-          Array.from(elementsContainerRef.current.children).forEach((item) => {
-            const { left, top, width, height } = item.getBoundingClientRect();
-            selectableItems.current.push({
-              left,
-              top,
-              width,
-              height
-            });
+          Array.from(elementsContainerRef.current.children).forEach((para) => {
+
+            Array.from(para.children).forEach((line) => {
+                Array.from(line.children).forEach((item) => {
+                    console.log(item);
+                    const { left, top, width, height } = item.getBoundingClientRect();
+                    selectableItems.current.push({
+                      left,
+                      top,
+                      width,
+                      height
+                    });
+                })
+            })
+
           });
         }
       }, []);
