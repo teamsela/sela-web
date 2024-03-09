@@ -93,13 +93,13 @@ export const PoemView: React.FC<PoemViewProps> = ({
     });
 
     useEffect(() => {
-        console.log(elementsContainerRef.current);
+        // console.log(elementsContainerRef.current);
         if (elementsContainerRef.current) {
           Array.from(elementsContainerRef.current.children).forEach((para) => {
 
             Array.from(para.children).forEach((line) => {
                 Array.from(line.children).forEach((item) => {
-                    console.log(item);
+                    // console.log(item);
                     const { left, top, width, height } = item.getBoundingClientRect();
                     selectableItems.current.push({
                       left,
@@ -115,6 +115,27 @@ export const PoemView: React.FC<PoemViewProps> = ({
       }, []);
 
     var poemStructure;
+
+    //from Peter Han
+    const get1DIndex = (x: number, y: number, z: number) => {
+        let index = 0;
+        const numColumns = poemContent[0][0].length;
+        const numRows = poemContent[0].length;
+
+        for (let row = 0; row < x; row++) {
+            for (let col = 0; col < numRows; col++) {
+                index += poemContent[row][col].length;
+            }
+        }
+        for (let col = 0; col < y; col++) {
+            index += poemContent[x][col].length;
+        }
+        index += z;
+        // console.log(index);
+        return index;
+    }
+    ///////////////////
+
     switch (mode) {
         case "structure":
             poemStructure = (
@@ -129,27 +150,31 @@ export const PoemView: React.FC<PoemViewProps> = ({
                         {
                             poemContent.map((content, index) => (
                                 <PoemParagraph
-                                    key={index}
+                                    num={index}
                                     color={index % 2 === 0 ? "white" : "#EFEFEF"}
                                 >
                                     {content.map((lineContent, lineIndex) => (
-                                        <PoemLine key={lineIndex}>
+                                        <PoemLine num={lineIndex}>
                                             {
-                                                lineContent.map((word, wordIndex) => (
-                                                    <PoemWord
-                                                        num={wordIndex}
-                                                        selectedIndexes={selectedIndexes}
-                                                        color="black"
-                                                        backgroundColor={colour_Bg}
-                                                        borderColour="grey"
-                                                        text={word}
-                                                        wordStatus={wordStatus}
-                                                        setWordStatus={setWordStatus}
-                                                        wordArray={wordArray}
-                                                        updateNewArray={updateNewArray}
-                                                        bgButtonClicked={bgButtonClicked}
-                                                    />
-                                                )
+                                                lineContent.map((word, wordIndex) => 
+                                                    {
+                                                        let keyIndex = get1DIndex(index,lineIndex,wordIndex);
+                                                        (
+                                                            <PoemWord
+                                                                num={keyIndex}
+                                                                selectedIndexes={selectedIndexes}
+                                                                color="black"
+                                                                backgroundColor={colour_Bg}
+                                                                borderColour="grey"
+                                                                text={word}
+                                                                wordStatus={wordStatus}
+                                                                setWordStatus={setWordStatus}
+                                                                wordArray={wordArray}
+                                                                updateNewArray={updateNewArray}
+                                                                bgButtonClicked={bgButtonClicked}
+                                                            />
+                                                        )
+                                                    }
                                                 )
                                             }
                                         </PoemLine>
@@ -173,25 +198,30 @@ export const PoemView: React.FC<PoemViewProps> = ({
                     >
                         {
                             poemContent.map((content, index) => (
-                                <PoemParagraph key={index} color={"white"}>
+                                <PoemParagraph num={index} color={"white"}>
                                     {content.map((lineContent, lineIndex) => (
-                                        <PoemLine key={lineIndex}>
+                                        <PoemLine num={lineIndex}>
                                             {
-                                                lineContent.map((word, wordIndex) => (
-                                                    <PoemWord
-                                                        num={wordIndex}
-                                                        selectedIndexes={selectedIndexes}
-                                                        color="black"
-                                                        backgroundColor={colour_Bg}
-                                                        borderColour="grey"
-                                                        text={word}
-                                                        wordStatus={wordStatus}
-                                                        setWordStatus={setWordStatus}
-                                                        wordArray={wordArray}
-                                                        updateNewArray={updateNewArray}
-                                                        bgButtonClicked={bgButtonClicked}
-                                                    />
-                                                ))
+                                                lineContent.map((word, wordIndex) => 
+                                                    {
+                                                        let keyIndex = get1DIndex(index,lineIndex,wordIndex);
+                                                        (
+                                                            <PoemWord
+                                                                num={keyIndex}
+                                                                selectedIndexes={selectedIndexes}
+                                                                color="black"
+                                                                backgroundColor={colour_Bg}
+                                                                borderColour="grey"
+                                                                text={word}
+                                                                wordStatus={wordStatus}
+                                                                setWordStatus={setWordStatus}
+                                                                wordArray={wordArray}
+                                                                updateNewArray={updateNewArray}
+                                                                bgButtonClicked={bgButtonClicked}
+                                                            />
+                                                        )
+                                                    }
+                                                )
                                             }
                                         </PoemLine>
                                     ))}
@@ -210,7 +240,7 @@ export default PoemView;
 
 
 interface PoemParagraphProps {
-    key: number;
+    num: number;
     children: any;
     // paragraphContent: string[][];
     color: string;
@@ -220,14 +250,14 @@ interface PoemParagraphProps {
 
 export class PoemParagraph extends Component<PoemParagraphProps> {
     render() {
-        const { key, children, color } = this.props;
+        const { num, children, color } = this.props;
         const componentStyle = {
             backgroundColor: color,
         };
         return (
             <>
                 <div 
-                    key={key} 
+                    key={num} 
                     className="poemParagraph" 
                     style={componentStyle}
                 >
@@ -239,7 +269,7 @@ export class PoemParagraph extends Component<PoemParagraphProps> {
 }
 
 interface PoemLineProps {
-    key: number;
+    num: number;
     children: any;
     // lineContent: string[];
     // wordStatus: boolean;
@@ -248,10 +278,10 @@ interface PoemLineProps {
 
 export class PoemLine extends Component<PoemLineProps> {
     render() {
-        const { key, children } = this.props;
+        const { num, children } = this.props;
         return (
             <>
-                <div key={key} className="poemLine">
+                <div key={num} className="poemLine">
                     {children}
                 </div>
             </>
