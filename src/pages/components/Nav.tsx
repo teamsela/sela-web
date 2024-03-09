@@ -113,12 +113,15 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
     const updateNewArray = (newArray) => {
         updateArray(newArray);
     }
+    //supports for the clear all selection button
     const clearArray = () => {
-        updateArray([]);
-        setSelectedIndexes([]);
+        updateArray([]); //the array that contains all selected words
+        setSelectedIndexes([]); //the array that contains selectable item for the drag-select plugin, generally has the same content as array_word but will be processed differently in stanzas.tsx
         setWordStatus(false);
     };
 
+    //controls the background colour of word boxes under stanzas.tsx
+    //receive updates from colourPicker.tsx
     const [colour_Bg, update_colourBg] = useState([{r:"255",g:"255",b:"255",a:"1"}]);
     const updateBgColour = (newColour) => {
         update_colourBg(newColour);
