@@ -159,21 +159,21 @@ export const PoemView: React.FC<PoemViewProps> = ({
                                                 lineContent.map((word, wordIndex) => 
                                                     {
                                                         let keyIndex = get1DIndex(index,lineIndex,wordIndex);
-                                                        (
-                                                            <PoemWord
-                                                                num={keyIndex}
-                                                                selectedIndexes={selectedIndexes}
-                                                                color="black"
-                                                                backgroundColor={colour_Bg}
-                                                                borderColour="grey"
-                                                                text={word}
-                                                                wordStatus={wordStatus}
-                                                                setWordStatus={setWordStatus}
-                                                                wordArray={wordArray}
-                                                                updateNewArray={updateNewArray}
-                                                                bgButtonClicked={bgButtonClicked}
-                                                            />
-                                                        )
+                                                        return(
+                                                        <PoemWord
+                                                            num={keyIndex}
+                                                            selectedIndexes={selectedIndexes}
+                                                            color="black"
+                                                            backgroundColor={colour_Bg}
+                                                            borderColour="grey"
+                                                            text={word}
+                                                            wordStatus={wordStatus}
+                                                            setWordStatus={setWordStatus}
+                                                            wordArray={wordArray}
+                                                            updateNewArray={updateNewArray}
+                                                            bgButtonClicked={bgButtonClicked}
+                                                        />
+                                                        );
                                                     }
                                                 )
                                             }
@@ -203,9 +203,10 @@ export const PoemView: React.FC<PoemViewProps> = ({
                                         <PoemLine num={lineIndex}>
                                             {
                                                 lineContent.map((word, wordIndex) => 
-                                                    {
-                                                        let keyIndex = get1DIndex(index,lineIndex,wordIndex);
-                                                        (
+
+                                                        {
+                                                            let keyIndex = get1DIndex(index,lineIndex,wordIndex);
+                                                            return(
                                                             <PoemWord
                                                                 num={keyIndex}
                                                                 selectedIndexes={selectedIndexes}
@@ -219,8 +220,9 @@ export const PoemView: React.FC<PoemViewProps> = ({
                                                                 updateNewArray={updateNewArray}
                                                                 bgButtonClicked={bgButtonClicked}
                                                             />
-                                                        )
-                                                    }
+                                                            );
+                                                        }
+                                                    
                                                 )
                                             }
                                         </PoemLine>
