@@ -1,5 +1,13 @@
 import React, { Component } from "react";
 
+import { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  boxesIntersect,
+  useSelectionContainer
+} from "@air/react-drag-to-select";
+
+
 interface PoemViewProps {
     poemContent: string[][][];
     mode: string;
@@ -10,102 +18,234 @@ interface PoemViewProps {
     setWordStatus: Function;
 
     wordArray: [];
-    updateNewArray:Function;
-    childState:any;
+    selectedIndexes:number[];
+    setSelectedIndexes:Function;
+    updateNewArray: Function;
+    childState: any;
+
+    colour_Bg: object;
+    bgButtonClicked: boolean;
     // wordArrayAdd: Function;
 }
 
-export class PoemView extends Component<PoemViewProps> {
-    render() {
-        const { poemContent, mode, fontSize, bgColour, pickerStatus, wordStatus, setWordStatus, wordArray, updateNewArray} = this.props;
+export const PoemView: React.FC<PoemViewProps> = ({
+    poemContent,
+    mode,
+    fontSize,
+    bgColour,
+    pickerStatus,
+    wordStatus,
+    setWordStatus,
+    wordArray,
+    selectedIndexes,
+    setSelectedIndexes,
+    updateNewArray,
+    colour_Bg,
+    bgButtonClicked,
+}) => {
+    var pickerOn = pickerStatus;
+    var background = bgColour;
 
-        var pickerOn = pickerStatus;
-        var background = bgColour;
+    const componentStyle = {
+        fontSize: fontSize,
+    };
 
-        // console.log(poemContent);
-        const componentStyle = {
-            fontSize: fontSize,
+    const [selectionBox, setSelectionBox] = useState<Box>();
+    const selectableItems = useRef<Box[]>([]);
+    const elementsContainerRef = useRef<HTMLDivElement | null>(null);
+
+    const { DragSelection } = useSelectionContainer({
+    //   eventsElement: document.getElementById("root"),
+      onSelectionChange: (box) => {
+        /**
+         * Here we make sure to adjust the box's left and top with the scroll position of the window
+         * @see https://github.com/AirLabsTeam/react-drag-to-select/#scrolling
+         */
+        const scrollAwareBox: Box = {
+          ...box,
+          top: box.top + window.scrollY,
+          left: box.left + window.scrollX
         };
-        var poemStructure;
-        switch (mode) {
-            case "structure":
-                poemStructure = (
-                    <>
-                        <div className="poemViewPort" style={componentStyle}>
-                            {
-                                poemContent.map((content, index) => (
-                                    <PoemParagraph
-                                        key={index}
-                                        color={index % 2 === 0 ? "white" : "#EFEFEF"}
-                                    >
-                                        {content.map((lineContent, index) => (
-                                            <PoemLine key={index}>
-                                                {
-                                                    lineContent.map((word,wordIndex) => (
-                                                        <PoemWord 
-                                                            key={wordIndex} 
-                                                            color="black" 
-                                                            backgroundColor="white" 
-                                                            borderColour="grey" 
-                                                            text={word} 
-                                                            wordStatus={wordStatus} 
-                                                            setWordStatus={setWordStatus} 
-                                                            wordArray={wordArray}
-                                                            updateNewArray={updateNewArray}
-                                                            // wordArrayAdd={wordArrayAdd}
-                                                        />
-                                                    ))
-                                                }
-                                            </PoemLine>
-                                        ))}
-                                    </PoemParagraph>
-                                ))
-                            }
-                        </div>
-                    </>
-                );
-                break;
-            default:
-                poemStructure = (
-                    <>
-                        <div className="poemViewPort" style={componentStyle}>
-                            {
-                                poemContent.map((content, index) => (
-                                    <PoemParagraph key={index} color={"white"}>
-                                        {content.map((lineContent, index) => (
-                                            <PoemLine key={index}>
-                                                {
-                                                    lineContent.map((word,wordIndex) => (
-                                                        <PoemWord 
-                                                            key={wordIndex} 
-                                                            color="black" 
-                                                            backgroundColor="white" 
-                                                            borderColour="grey" 
-                                                            text={word} 
-                                                            wordStatus={wordStatus} 
-                                                            setWordStatus={setWordStatus} 
-                                                            wordArray={wordArray}
-                                                            updateNewArray={updateNewArray}
-                                                            // wordArrayAdd={wordArrayAdd}
-                                                        />
-                                                    ))
-                                                }
-                                            </PoemLine>
-                                        ))}
-                                    </PoemParagraph>
-                                ))
-                            }
-                        </div>
-                    </>
-                );
-                break;
+        setSelectionBox(scrollAwareBox);
+
+        //detecting if target is selected
+        const indexesToSelect: number[] = [];
+        selectableItems.current.forEach((item, index) => {
+          if (boxesIntersect(scrollAwareBox, item)) {
+            indexesToSelect.push(index);
+            console.log(item);
+          }
+        });
+        
+        setSelectedIndexes(indexesToSelect);
+      },
+      onSelectionStart: () => {
+        console.log("OnSelectionStart");
+        console.log(selectableItems);
+      },
+      onSelectionEnd: () => console.log("OnSelectionEnd"),
+      selectionProps: {
+        style: {
+          border: "2px dashed purple",
+          borderRadius: 4,
+          backgroundColor: "brown",
+          opacity: 0.5
         }
-        return poemStructure;
+      },
+      isEnabled: true
+    });
+
+    useEffect(() => {
+        // console.log(elementsContainerRef.current);
+        if (elementsContainerRef.current) {
+          Array.from(elementsContainerRef.current.children).forEach((para) => {
+
+            Array.from(para.children).forEach((line) => {
+                Array.from(line.children).forEach((item) => {
+                    // console.log(item);
+                    const { left, top, width, height } = item.getBoundingClientRect();
+                    selectableItems.current.push({
+                      left,
+                      top,
+                      width,
+                      height
+                    });
+                })
+            })
+
+          });
+        }
+      }, []);
+
+    var poemStructure;
+
+    //from Peter Han
+    const get1DIndex = (x: number, y: number, z: number) => {
+        let index = 0;
+        const numColumns = poemContent[0][0].length;
+        const numRows = poemContent[0].length;
+
+        for (let row = 0; row < x; row++) {
+            for (let col = 0; col < numRows; col++) {
+                index += poemContent[row][col].length;
+            }
+        }
+        for (let col = 0; col < y; col++) {
+            index += poemContent[x][col].length;
+        }
+        index += z;
+        // console.log(index);
+        return index;
     }
+    ///////////////////
+
+    switch (mode) {
+        case "structure":
+            poemStructure = (
+                <>
+                    <DragSelection />
+                    <div 
+                        id="elements-container"
+                        className="poemViewPort elements-container" 
+                        style={componentStyle}
+                        ref={elementsContainerRef}
+                    >
+                        {
+                            poemContent.map((content, index) => (
+                                <PoemParagraph
+                                    num={index}
+                                    color={index % 2 === 0 ? "white" : "#EFEFEF"}
+                                >
+                                    {content.map((lineContent, lineIndex) => (
+                                        <PoemLine num={lineIndex}>
+                                            {
+                                                lineContent.map((word, wordIndex) => 
+                                                    {
+                                                        let keyIndex = get1DIndex(index,lineIndex,wordIndex);
+                                                        return(
+                                                        <PoemWord
+                                                            num={keyIndex}
+                                                            selectedIndexes={selectedIndexes}
+                                                            color="black"
+                                                            backgroundColor={colour_Bg}
+                                                            borderColour="grey"
+                                                            text={word}
+                                                            wordStatus={wordStatus}
+                                                            setWordStatus={setWordStatus}
+                                                            wordArray={wordArray}
+                                                            updateNewArray={updateNewArray}
+                                                            bgButtonClicked={bgButtonClicked}
+                                                        />
+                                                        );
+                                                    }
+                                                )
+                                            }
+                                        </PoemLine>
+                                    ))}
+                                </PoemParagraph>
+                            ))
+                        }
+                    </div>
+                </>
+            );
+            break;
+        default:
+            poemStructure = (
+                <>
+                    <DragSelection />
+                    <div 
+                        id="elements-container"
+                        className="poemViewPort elements-container" 
+                        style={componentStyle}
+                        ref={elementsContainerRef}
+                    >
+                        {
+                            poemContent.map((content, index) => (
+                                <PoemParagraph num={index} color={"white"}>
+                                    {content.map((lineContent, lineIndex) => (
+                                        <PoemLine num={lineIndex}>
+                                            {
+                                                lineContent.map((word, wordIndex) => 
+
+                                                        {
+                                                            let keyIndex = get1DIndex(index,lineIndex,wordIndex);
+                                                            return(
+                                                            <PoemWord
+                                                                num={keyIndex}
+                                                                selectedIndexes={selectedIndexes}
+                                                                color="black"
+                                                                backgroundColor={colour_Bg}
+                                                                borderColour="grey"
+                                                                text={word}
+                                                                wordStatus={wordStatus}
+                                                                setWordStatus={setWordStatus}
+                                                                wordArray={wordArray}
+                                                                updateNewArray={updateNewArray}
+                                                                bgButtonClicked={bgButtonClicked}
+                                                            />
+                                                            );
+                                                        }
+                                                    
+                                                )
+                                            }
+                                        </PoemLine>
+                                    ))}
+                                </PoemParagraph>
+                            ))
+                        }
+                    </div>
+                </>
+            );
+            break;
+    }
+    return poemStructure;
 }
 
+export default PoemView;
+
+
 interface PoemParagraphProps {
-    key: number;
+    num: number;
     children: any;
     // paragraphContent: string[][];
     color: string;
@@ -115,13 +255,17 @@ interface PoemParagraphProps {
 
 export class PoemParagraph extends Component<PoemParagraphProps> {
     render() {
-        const { key, children, color } = this.props;
+        const { num, children, color } = this.props;
         const componentStyle = {
             backgroundColor: color,
         };
         return (
             <>
-                <div key={key} className="poemParagraph" style={componentStyle}>
+                <div 
+                    key={num} 
+                    className="poemParagraph" 
+                    style={componentStyle}
+                >
                     {children}
                 </div>
             </>
@@ -130,7 +274,7 @@ export class PoemParagraph extends Component<PoemParagraphProps> {
 }
 
 interface PoemLineProps {
-    key: number;
+    num: number;
     children: any;
     // lineContent: string[];
     // wordStatus: boolean;
@@ -139,10 +283,10 @@ interface PoemLineProps {
 
 export class PoemLine extends Component<PoemLineProps> {
     render() {
-        const { key, children } = this.props;
+        const { num, children } = this.props;
         return (
             <>
-                <div key={key} className="poemLine">
+                <div key={num} className="poemLine">
                     {children}
                 </div>
             </>
@@ -152,7 +296,7 @@ export class PoemLine extends Component<PoemLineProps> {
 
 interface PoemWordProps {
     color: string;
-    backgroundColor: string;
+    backgroundColor: object;
     borderColour: string;
     text: string;
     wordStatus: boolean;
@@ -160,28 +304,28 @@ interface PoemWordProps {
     wordArray: [];
     updateNewArray: Function;
     // wordArrayAdd: Function;
+    bgButtonClicked:boolean;
+    num: number;
+    selectedIndexes:number[];
 }
 
 export class PoemWord extends Component<PoemWordProps> {
 
     setWordStatus:Function;
     updateNewArray:Function;
-    // wordArrayAdd;
     constructor(props:any){
         super(props);
         this.setWordStatus=props.setWordStatus.bind(this);
         this.updateNewArray=props.updateNewArray.bind(this);
-        // if(!this.props.wordStatus){
-        //     this.state.selected=false;
-        // }
-        // console.log('renders')
         this.state = {
             selected: props.wordStatus,
+            colour_Bg: props.backgroundColor
         };
     }
 
     state = {
         selected: false,
+        colour_Bg: {},
     };
 
     componentDidUpdate(prevProps) {
@@ -192,11 +336,25 @@ export class PoemWord extends Component<PoemWordProps> {
               selected: this.props.wordStatus,
             });
         }
-        // if (this.props.wordStatus !== prevProps.wordStatus) {
-        //   this.setState({
-        //     selected: this.props.wordStatus,
-        //   });
-        // }
+        // if the colour of this word's state is different from backgroundColour AND picker button is clicked
+        //ensures that colour changes only when the picker button is clicked
+        if (this.state.colour_Bg !== this.props.backgroundColor && prevProps.bgButtonClicked != this.props.bgButtonClicked) {
+            if(this.state.selected){
+                console.log('colour change')
+                console.log(this.props.bgButtonClicked);
+                this.setState({ colour_Bg: this.props.backgroundColor });
+                console.log(this.props.backgroundColor)
+            }
+        }
+
+        if(this.props.selectedIndexes.includes(this.props.num)){
+            // console.log(this.props.text + " is selected");
+            if(!this.state.selected){
+                this.setState({ selected: true });
+                this.addToArray(this.props.wordArray, this.props.text);
+                this.toggleColourTools();
+            }
+        }
     }
 
     addToArray = (array:[], target) => {
@@ -209,48 +367,36 @@ export class PoemWord extends Component<PoemWordProps> {
         console.log(removeTarget);
         this.updateNewArray(array);
     }
+    toggleColourTools = () => {
+        if(this.props.wordArray.length>0){
+            this.setWordStatus(true);
+        }
+        else{
+            this.setWordStatus(false);
+        }
+    }
 
     handleClick = () => {
         var { text, wordStatus } = this.props;
         if(this.state.selected){
             this.setState({ selected: false })
             this.removeFromArray(this.props.wordArray, this.props.text);
-            console.log("removed "+this.props.text);
         }
         else{
             this.setState({ selected: true })
             this.addToArray(this.props.wordArray, this.props.text);
-            console.log("added "+this.props.text);
         }
-
-        // console.log(text);
-        // console.log(wordStatus);
-        console.log(this.props.wordArray);
-        console.log("arr len: "+this.props.wordArray.length);
-
-        if(this.props.wordArray.length>0){
-            this.setWordStatus(true);
-        }
-        else{
-            this.setWordStatus(false);
-            // this.state.selected=false;
-        }
+        this.toggleColourTools();
     };
 
-    // toggleWordState = () => {
-    //     if(this.props.wordStatus){
-    //         this.state.selected=true;
-    //     }
-    //     else{
-    //         this.state.selected=false;
-    //     }
-    // }
-
     render() {
-        const { color, backgroundColor, borderColour, text, wordStatus } = this.props;
+        const { color, borderColour, text, num, selectedIndexes } = this.props;
+        // console.log(selectedIndexes);
+        // console.log(num);
+        const bgColourValue = `rgba(${this.state.colour_Bg.r}, ${this.state.colour_Bg.g}, ${this.state.colour_Bg.b}, ${this.state.colour_Bg.a})`
         const componentStyle = {
             color: color,
-            backgroundColor: backgroundColor,
+            backgroundColor: bgColourValue,
             border: '3px solid ' + borderColour,
             padding: '0.25rem 1rem',
             borderRadius: '0.5rem',
@@ -259,7 +405,13 @@ export class PoemWord extends Component<PoemWordProps> {
 
         return (
             <>
-                <div className="poemWord" style={componentStyle} onClick={this.handleClick}>
+                <div 
+                    key={num}
+                    className='poemWord'
+                    data-testid={`grid-cell-${num}`}
+                    style={componentStyle} 
+                    onClick={this.handleClick}
+                >
                     <p
                         style={this.state.selected ? { backgroundColor: 'rgba(0,0,0,0.25)' } : { backgroundColor: 'rgba(0,0,0,0)' }}
                     >

@@ -23,6 +23,7 @@ export default function Editor() {
       console.log(selectedButton);
     };
 
+    //changing font size function
     const [fontSize, setFontSize] = useState(16);
     const increaseFontSize = () => {
         setFontSize(prevSize => prevSize + 2);
@@ -31,7 +32,7 @@ export default function Editor() {
         setFontSize(prevSize => prevSize - 2);
     };
 
-
+    //controls preview colour for the change background colour button
     const [colour, setColour] = useState(
         {
             color: {
@@ -55,21 +56,23 @@ export default function Editor() {
         )
         console.log(colour);
     }
+    //
+    //need to add the same structure for border and font colour below
 
+
+    //pickerStatus: also exist under nav.tsx, stanza.tsx and colourPicker.tsx. no longer needed, plan to remove
     const [pickerStatus, setPickerStatus] = useState(false);
     const setNewPickerStatus = (newState) => {
         setPickerStatus(newState);
         console.log(pickerStatus);
     }
 
+    //wordStatus: used to detect whether words are selected under stanzas.tsx
     const [wordStatus, setWordStatus] = useState(false);
     const setNewWordStatus = (newState) => {
         setWordStatus(newState);
         console.log(wordStatus);
     }
-
-    // console.log("colour is: " + colour.color.r);
-
 
     const poemTest = [
         [["A Psalm","of David"]],

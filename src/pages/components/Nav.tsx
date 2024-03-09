@@ -103,30 +103,37 @@ export const NavMain = ({ onLanguageChange, selectedButton, onSelectButton }) =>
 }
 
 
-// const poemContent = (type) => {
-//     var poem;
-//     switch(type){
-//         case "structure":
-//             poem = (
-//                 <PoemView poemContent={poem} mode="" fontSize={fontSize} bgColour={color} pickerStatus={pickerStatus} wordStatus={wordStatus} setWordStatus={setWordStatus}/>
-//             )
-//     }
-// }
-
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontSizeDown, color, setNewColour, pickerStatus, setPickerStatus, wordStatus, setWordStatus} ) => {
 
+    //codes that mananges select/deSelect function for poem word boxes
     //using state to monitor array status is necessary or array wont be updated correctly
     const [array_word, updateArray] = useState([]);
+    const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
     const updateNewArray = (newArray) => {
         updateArray(newArray);
     }
+    //supports for the clear all selection button
     const clearArray = () => {
-        updateArray([]);
+        updateArray([]); //the array that contains all selected words
+        setSelectedIndexes([]); //the array that contains selectable item for the drag-select plugin, generally has the same content as array_word but will be processed differently in stanzas.tsx
         setWordStatus(false);
     };
 
+    //controls the background colour of word boxes under stanzas.tsx
+    //receive updates from colourPicker.tsx
+    const [colour_Bg, update_colourBg] = useState([{r:"255",g:"255",b:"255",a:"1"}]);
+    const updateBgColour = (newColour) => {
+        update_colourBg(newColour);
+    }
+
+    //detect if the colour picker button is clicked
+    const [bgButtonClicked, handleBgButton] = useState(false);
+    const handleButtonClick = () => {
+        // Update the state when the button is clicked
+        handleBgButton(prevState => !prevState);
+    };
+    
     //adjust right side buttons on the secondary nav based on which page the user is in
     var navStanzaEdit;
     var bodyContent;
@@ -152,7 +159,12 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     wordStatus={wordStatus} 
                     setWordStatus={setWordStatus} 
                     wordArray={array_word}
+                    selectedIndexes={selectedIndexes}
+                    setSelectedIndexes={setSelectedIndexes}
+
                     updateNewArray={updateNewArray}
+                    colour_Bg = {colour_Bg}
+                    bgButtonClicked = {bgButtonClicked}
                 />
             )
           break;
@@ -170,8 +182,13 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     wordStatus={wordStatus} 
                     setWordStatus={setWordStatus} 
                     wordArray={array_word}
+                    selectedIndexes={selectedIndexes}
+                    setSelectedIndexes={setSelectedIndexes}
+
                     updateNewArray={updateNewArray}
-                />            
+                    colour_Bg = {colour_Bg}
+                    bgButtonClicked = {bgButtonClicked}
+                />         
             )
       }
     var navStructure = (
@@ -213,7 +230,16 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                             className="colourTools"
                             style={ wordStatus ? {display:'inherit'} : {display:'none'} }
                         >
-                            <BgColour color={color} setNewColour={setNewColour} pickerStatus={pickerStatus} setPickerStatus={setPickerStatus} />
+                            <BgColour 
+                                color={color} 
+                                setNewColour={setNewColour} 
+                                pickerStatus={pickerStatus} 
+                                setPickerStatus={setPickerStatus} 
+
+                                colour_Bg = {colour_Bg}
+                                setColourBg = {updateBgColour}
+                                handleButtonClick = {handleButtonClick}
+                            />
                             <BorderColour />
                             <FontColour />
                             <button onClick={clearArray}>

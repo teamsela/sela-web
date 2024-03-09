@@ -230,6 +230,11 @@
 }
 
 
+.poemWord.selected{
+    background-color: red;
+}
+
+
 /* style used to horizontally divide contents */
 /* .poemViewPort.structure{
     display: flex;
