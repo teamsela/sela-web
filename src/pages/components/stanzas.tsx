@@ -18,6 +18,8 @@ interface PoemViewProps {
     setWordStatus: Function;
 
     wordArray: [];
+    selectedIndexes:number[];
+    setSelectedIndexes:Function;
     updateNewArray: Function;
     childState: any;
 
@@ -35,6 +37,8 @@ export const PoemView: React.FC<PoemViewProps> = ({
     wordStatus,
     setWordStatus,
     wordArray,
+    selectedIndexes,
+    setSelectedIndexes,
     updateNewArray,
     colour_Bg,
     bgButtonClicked,
@@ -47,7 +51,6 @@ export const PoemView: React.FC<PoemViewProps> = ({
     };
 
     const [selectionBox, setSelectionBox] = useState<Box>();
-    const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
     const selectableItems = useRef<Box[]>([]);
     const elementsContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -343,6 +346,15 @@ export class PoemWord extends Component<PoemWordProps> {
                 console.log(this.props.backgroundColor)
             }
         }
+
+        if(this.props.selectedIndexes.includes(this.props.num)){
+            // console.log(this.props.text + " is selected");
+            if(!this.state.selected){
+                this.setState({ selected: true });
+                this.addToArray(this.props.wordArray, this.props.text);
+                this.toggleColourTools();
+            }
+        }
     }
 
     addToArray = (array:[], target) => {
@@ -355,6 +367,14 @@ export class PoemWord extends Component<PoemWordProps> {
         console.log(removeTarget);
         this.updateNewArray(array);
     }
+    toggleColourTools = () => {
+        if(this.props.wordArray.length>0){
+            this.setWordStatus(true);
+        }
+        else{
+            this.setWordStatus(false);
+        }
+    }
 
     handleClick = () => {
         var { text, wordStatus } = this.props;
@@ -366,12 +386,7 @@ export class PoemWord extends Component<PoemWordProps> {
             this.setState({ selected: true })
             this.addToArray(this.props.wordArray, this.props.text);
         }
-        if(this.props.wordArray.length>0){
-            this.setWordStatus(true);
-        }
-        else{
-            this.setWordStatus(false);
-        }
+        this.toggleColourTools();
     };
 
     render() {
@@ -392,9 +407,7 @@ export class PoemWord extends Component<PoemWordProps> {
             <>
                 <div 
                     key={num}
-                    className={`poemWord element ${
-                      selectedIndexes.includes(num) ? "selected" : ""
-                    }`}
+                    className='poemWord'
                     data-testid={`grid-cell-${num}`}
                     style={componentStyle} 
                     onClick={this.handleClick}

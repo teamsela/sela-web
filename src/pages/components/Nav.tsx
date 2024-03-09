@@ -109,11 +109,13 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
     //codes that mananges select/deSelect function for poem word boxes
     //using state to monitor array status is necessary or array wont be updated correctly
     const [array_word, updateArray] = useState([]);
+    const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
     const updateNewArray = (newArray) => {
         updateArray(newArray);
     }
     const clearArray = () => {
         updateArray([]);
+        setSelectedIndexes([]);
         setWordStatus(false);
     };
 
@@ -154,8 +156,10 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     wordStatus={wordStatus} 
                     setWordStatus={setWordStatus} 
                     wordArray={array_word}
-                    updateNewArray={updateNewArray}
+                    selectedIndexes={selectedIndexes}
+                    setSelectedIndexes={setSelectedIndexes}
 
+                    updateNewArray={updateNewArray}
                     colour_Bg = {colour_Bg}
                     bgButtonClicked = {bgButtonClicked}
                 />
@@ -175,11 +179,13 @@ export const NavTools = ( {selectedButton, poem, fontSize, onFontSizeUp, onFontS
                     wordStatus={wordStatus} 
                     setWordStatus={setWordStatus} 
                     wordArray={array_word}
-                    updateNewArray={updateNewArray}
+                    selectedIndexes={selectedIndexes}
+                    setSelectedIndexes={setSelectedIndexes}
 
+                    updateNewArray={updateNewArray}
                     colour_Bg = {colour_Bg}
                     bgButtonClicked = {bgButtonClicked}
-                />            
+                />         
             )
       }
     var navStructure = (
